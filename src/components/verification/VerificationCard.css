@@ -1,0 +1,77 @@
+/* Container Styles */
+.verification-card-container {
+  padding: 20px;
+  margin-top: -20px; /* Adjust this value to move the whole container up */
+}
+.verification-box-section {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Search Section Styles */
+.verification-search-section {
+  margin-bottom: 10px; /* Reduced margin-bottom to move the section higher */
+  margin-top: -10px; /* Added margin-top to move the section higher */
+}
+
+.verification-search-input {
+  margin-right: 10px;
+  width: 300px;
+}
+
+.verification-submit-button {
+  background-color: #1976d2;
+  color: white;
+}
+
+/* Left Box Styles */
+.verification-left-box {
+  width: 48%;
+  padding: 20px;
+}
+
+
+.verification-profile-pic {
+  width: 100px;
+  height: 100px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  /* top: -5px; */
+  right: 16px;
+}
+
+.profile-pic-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Typography Styles */
+.verification-left-box .MuiTypography-root {
+  font-family: 'Arial', sans-serif;
+  margin-bottom: 25px;
+}
+
+.verification-left-box .MuiTypography-h6 {
+  font-weight: bold;
+}
+
+.verification-left-box .MuiTypography-body1 {
+  font-weight: normal;
+}
+
+/* Right Box Styles */
+.verification-right-box {
+  width: 48%;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.certificate-img {
+  height: 300px; /* Fixing the height of the certificate image */
+  width: auto; /* Ensuring the width adjusts to maintain aspect ratio */
+}
