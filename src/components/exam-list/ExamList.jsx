@@ -11,6 +11,7 @@ import {
   Avatar,
   Button,
   Box,
+  CircularProgress,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
@@ -42,11 +43,18 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.grey[400],
     },
   },
+  loaderContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '60vh', // Adjust based on your layout
+  },
 }));
 
 const ExamList = () => {
   const classes = useStyles();
   const [exams, setExams] = useState([]);
+  const [loading, setLoading] = useState(true);
   const history = useHistory();
   const studentData = JSON.parse(localStorage.getItem("studentData"));
 
@@ -54,7 +62,7 @@ const ExamList = () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      history.push("/login");
+      history.push("/student-login");
       return;
     }
 
@@ -66,25 +74,53 @@ const ExamList = () => {
       })
       .then((response) => {
         setExams(response.data);
+        setLoading(false);
       })
       .catch((error) => {
-        console.error("Error:", error.message);
+        if (error.response && error.response.status === 401) {
+          history.push("/student-login");
+        } else {
+          console.error("Error:", error.message);
+        }
+        setLoading(false);
       });
   }, [history]);
+
+  if (!studentData) {
+    history.push("/student-login");
+    return null;
+  }
+
+  const profilePicUrl = studentData.profilePic
+    ? `https://grtc-new-node-backend.onrender.com/${studentData.profilePic.replace(/\\/g, "/")}`
+    : "";
+
+  const getInitials = (name) => {
+    if (!name) return "";
+    const initials = name.charAt(0).toUpperCase();
+    return initials;
+  };
+
+  if (loading) {
+    return (
+      <Box className={classes.loaderContainer}>
+        <CircularProgress size={60} style={{ color: "#1eb2a6" }} />
+      </Box>
+    );
+  }
 
   return (
     <>
       <Back title="Exam List" />
       <Container className={classes.container} maxWidth="md">
         <Box className={classes.header}>
-          <Avatar
-            src={`https://grtc-new-node-backend.onrender.com/${studentData.profilePic.replace(
-              /\\/g,
-              "/"
-            )}`}
-            alt="Profile"
-            className={classes.profilePic}
-          />
+          {profilePicUrl ? (
+            <Avatar src={profilePicUrl} alt="Profile" className={classes.profilePic} />
+          ) : (
+            <Avatar className={classes.profilePic}>
+              {getInitials(studentData.name)}
+            </Avatar>
+          )}
         </Box>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="exam table">

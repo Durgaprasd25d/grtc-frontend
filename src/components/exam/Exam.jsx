@@ -26,17 +26,28 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: theme.spacing(3),
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column",
+      alignItems: "flex-start",
+    },
   },
   profilePic: {
     width: theme.spacing(7),
     height: theme.spacing(7),
     marginRight: theme.spacing(2),
+    marginBottom: theme.spacing(2),
   },
-  timer: { fontSize: "1.5rem", fontWeight: "bold", color: "#ff0000" },
+  timer: {
+    fontSize: "1.5rem",
+    fontWeight: "bold",
+    color: "#ff0000",
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: theme.spacing(2),
+    },
+  },
   questionContainer: {
+    height: "550px",
     padding: theme.spacing(3),
-    width: "100%",
-    height: "100%",
   },
   questionPalette: {
     padding: theme.spacing(2),
@@ -51,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
   legend: {
     padding: theme.spacing(2),
     marginBottom: theme.spacing(2),
-    height: 100,
+    height: "32%",
   },
   legendItem: {
     display: "flex",
@@ -66,8 +77,12 @@ const useStyles = makeStyles((theme) => ({
   },
   actionButtons: {
     display: "flex",
-    justifyContent: "center",
-    marginTop: theme.spacing(3),
+    height: "40px",
+    flexDirection: "column",
+    gap: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "row",
+    },
   },
   errorMessage: {
     color: theme.palette.error.main,
@@ -83,10 +98,20 @@ const Exam = () => {
   const [studentData, setStudentData] = useState({});
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [studentAnswers, setStudentAnswers] = useState({});
+  const [questionStatus, setQuestionStatus] = useState({});
   const [timerSeconds, setTimerSeconds] = useState(3600);
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmitExam = useCallback(async () => {
+    const unansweredQuestions = exam.questions.some(
+      (question) => !studentAnswers[question._id]
+    );
+
+    if (unansweredQuestions) {
+      setErrorMessage("Please answer all questions before submitting.");
+      return;
+    }
+
     const token = localStorage.getItem("token");
     const examId = new URLSearchParams(location.search).get("id");
     const answersPayload = {
@@ -126,7 +151,8 @@ const Exam = () => {
         setErrorMessage("Failed to submit the exam. Please try again.");
       }
     }
-  }, [history, location.search, studentAnswers]);
+    console.log(answersPayload);
+  }, [exam, history, location.search, studentAnswers]);
 
   useEffect(() => {
     const fetchExamData = async () => {
@@ -179,10 +205,62 @@ const Exam = () => {
 
   const handleAnswerChange = (questionId, answer) => {
     setStudentAnswers((prev) => ({ ...prev, [questionId]: answer }));
+    setQuestionStatus((prev) => ({ ...prev, [questionId]: "answered" }));
   };
 
   const handleQuestionNavigation = (index) => {
     setCurrentQuestion(index);
+  };
+
+  const handleSaveAnswer = () => {
+    const activeQuestionId = exam.questions[currentQuestion]._id;
+    const selectedOption = studentAnswers[activeQuestionId];
+    if (selectedOption) {
+      setQuestionStatus((prev) => ({
+        ...prev,
+        [activeQuestionId]: "answered",
+      }));
+    }
+  };
+
+  const handleSaveAndMarkForReview = () => {
+    const activeQuestionId = exam.questions[currentQuestion]._id;
+    const selectedOption = studentAnswers[activeQuestionId];
+    if (selectedOption) {
+      setQuestionStatus((prev) => ({
+        ...prev,
+        [activeQuestionId]: "saved",
+      }));
+    } else {
+      delete studentAnswers[activeQuestionId];
+    }
+  };
+
+  const handleMark = () => {
+    const activeQuestionId = exam.questions[currentQuestion]._id;
+    if (questionStatus[activeQuestionId] === "marked") {
+      setQuestionStatus((prev) => ({
+        ...prev,
+        [activeQuestionId]: undefined,
+      }));
+    } else {
+      setQuestionStatus((prev) => ({
+        ...prev,
+        [activeQuestionId]: "marked",
+      }));
+    }
+  };
+  const profilePicUrl = studentData.profilePic
+    ? `https://grtc-new-node-backend.onrender.com/${studentData.profilePic.replace(
+        /\\/g,
+        "/"
+      )}`
+    : "";
+
+  const getInitials = (name) => {
+    if (!name) return "";
+    const initials = name.charAt(0).toUpperCase();
+    return initials;
   };
 
   if (!exam) {
@@ -208,14 +286,17 @@ const Exam = () => {
             {exam.title}
           </Typography>
           <Box id="studentInfo" className={classes.header}>
-            <Avatar
-              src={`https://grtc-new-node-backend.onrender.com/${studentData.profilePic.replace(
-                /\\/g,
-                "/"
-              )}`}
-              alt="Profile"
-              className={classes.profilePic}
-            />
+            {profilePicUrl ? (
+              <Avatar
+                src={profilePicUrl}
+                alt="Profile"
+                className={classes.profilePic}
+              />
+            ) : (
+              <Avatar className={classes.profilePic}>
+                {getInitials(studentData.name)}
+              </Avatar>
+            )}
             <div>
               <Typography variant="h6">{studentData.name}</Typography>
               <Typography variant="body2">
@@ -285,8 +366,12 @@ const Exam = () => {
                     className={classes.paletteButton}
                     onClick={() => handleQuestionNavigation(index)}
                     style={{
-                      backgroundColor: studentAnswers[questions[index]._id]
-                        ? "#006400"
+                      backgroundColor: questionStatus[questions[index]._id]
+                        ? questionStatus[questions[index]._id] === "answered"
+                          ? "#006400"
+                          : questionStatus[questions[index]._id] === "saved"
+                          ? "#1E90FF"
+                          : "#FFD700"
                         : "#8b0000",
                       color: "#fff",
                     }}
@@ -308,6 +393,20 @@ const Exam = () => {
               <div className={classes.legendItem}>
                 <span
                   className={classes.legendCircle}
+                  style={{ backgroundColor: "#1E90FF" }}
+                ></span>
+                Saved
+              </div>
+              <div className={classes.legendItem}>
+                <span
+                  className={classes.legendCircle}
+                  style={{ backgroundColor: "#FFD700" }}
+                ></span>
+                Mark
+              </div>
+              <div className={classes.legendItem}>
+                <span
+                  className={classes.legendCircle}
                   style={{ backgroundColor: "#8b0000" }}
                 ></span>
                 Not Answered
@@ -317,9 +416,34 @@ const Exam = () => {
               <Button
                 variant="contained"
                 color="primary"
+                onClick={handleSaveAnswer}
+              >
+                Save
+              </Button>
+              <div style={{ width: "120px" }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSaveAndMarkForReview}
+                  style={{
+                    width: "100%", // Adjust the width as needed
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  Save & Mark
+                </Button>
+              </div>
+              <Button variant="contained" color="primary" onClick={handleMark}>
+                Mark
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
                 onClick={handleSubmitExam}
               >
-                Submit Exam
+                Submit
               </Button>
             </Box>
           </Grid>
