@@ -37,6 +37,12 @@ const Header = () => {
               <Link to="/director">Director</Link>
             </li>
             <li>
+              <Link to="/notice">Notice</Link>
+            </li>
+            <li>
+              <Link to="/Image-gallery">Gallery</Link>
+            </li>
+            <li>
               <Link to="/contact">Contact</Link>
             </li>
           </ul>

@@ -17,13 +17,13 @@ const Hero = () => {
               Far far away, behind the word mountains, far from the countries
               Vokalia and Consonantia, there live the blind texts.
             </p>
-            <Link to="/courses">
-              <div className="button">
+            <div className="button">
+              <Link to="/courses">
                 <button>
                   VIEW COURSE <i className="fa fa-long-arrow-alt-right"></i>
                 </button>
-              </div>
-            </Link>
+              </Link>
+            </div>
           </div>
         </div>
       </section>

@@ -14,6 +14,8 @@ import Verification from "./components/verification/verification";
 import StudentLogin from "./components/student-login/StudentLogin";
 import ExamList from "./components/exam-list/ExamList";
 import Exam from "./components/exam/Exam";
+import Noticeboard from '../src/components/notice/NoticeBoard'
+import ImageGallery from "./components/gallery/ImageGallery";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
         <Route exact path="/student-login" component={StudentLogin} />
         <Route exact path="/exam-list" component={ExamList} />
         <Route exact path="/exam" component={Exam} />
+        <Route exact path="/notice" component={Noticeboard} />
+        <Route exact path="/Image-gallery" component={ImageGallery} />
         <Route exact path="/about" component={About} />
         <Route exact path="/courses" component={CourseHome} />
         <Route exact path="/students" component={Team} />

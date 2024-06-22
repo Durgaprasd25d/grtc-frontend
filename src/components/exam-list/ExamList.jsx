@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom"; // Import useHistory for navigation
 import Back from "../common/back/Back";
 
 const useStyles = makeStyles((theme) => ({
@@ -55,7 +55,7 @@ const ExamList = () => {
   const classes = useStyles();
   const [exams, setExams] = useState([]);
   const [loading, setLoading] = useState(true);
-  const history = useHistory();
+  const history = useHistory(); // Use useHistory for navigation
   const studentData = JSON.parse(localStorage.getItem("studentData"));
 
   useEffect(() => {
@@ -86,13 +86,16 @@ const ExamList = () => {
       });
   }, [history]);
 
-  if (!studentData) {
-    history.push("/student-login");
-    return null;
-  }
+  useEffect(() => {
+    if (!studentData) {
+      history.push("/student-login");
+    }
+  }, [studentData, history]);
 
-  const profilePicUrl = studentData.profilePic
-    ? `https://grtc-new-node-backend.onrender.com/${studentData.profilePic.replace(/\\/g, "/")}`
+  const profilePicUrl = studentData
+    ? studentData.profilePic
+      ? `https://grtc-new-node-backend.onrender.com/${studentData.profilePic.replace(/\\/g, "/")}`
+      : ""
     : "";
 
   const getInitials = (name) => {

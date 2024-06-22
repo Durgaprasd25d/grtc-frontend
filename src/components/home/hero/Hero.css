@@ -12,6 +12,13 @@
   padding-right: 50px;
   color: #fff;
 }
+.hero h2 {
+  font-size: 2.5rem; /* Adjust this value */
+}
+
+.hero h3 {
+  font-size: 1.8rem; /* Adjust this value */
+}
 .hero #heading h3 {
   color: #fff;
 }

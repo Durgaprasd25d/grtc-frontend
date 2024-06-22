@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./footer.css";
 
 const Footer = () => {
@@ -34,10 +35,12 @@ const Footer = () => {
           <div className="box link">
             <h3>Quick Links</h3>
             <ul>
-              <li>Student Registration</li>
-              <li>Notice Board</li>
-              <li>Image Gallery</li>
-              <li>Contact Us</li>
+              <li><Link to="/verification">Verification</Link></li>
+              <li><Link to="/courses">Courses</Link></li>
+              <li><Link to="/exam-list">Exam</Link></li>
+              <li><Link to="/contact">Contact Us</Link></li>
+              <li><Link to="/notice">Notice</Link></li>
+              <li><Link to="/image-gallery">Gallery</Link></li>
             </ul>
           </div>
           <div className="box last">
@@ -45,7 +48,7 @@ const Footer = () => {
             <ul>
               <li>
                 <i className="fa fa-map"></i>
-                Benagaon, Kanas, Puri, 752017, Odisha
+                Benagaon, Kanas, Puri, 752017
               </li>
               <li>
                 <i className="fa fa-phone-alt"></i>

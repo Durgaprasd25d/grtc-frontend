@@ -2,6 +2,9 @@
 .head {
   padding: 20px 0;
   color: #fff;
+  height: 150px;
+  /* border: 2px solid black; */
+  padding-top: 40px;
 }
 .logo h1 {
   font-size: 35px;
@@ -9,6 +12,16 @@
 }
 .head .icon {
   margin-left: 10px;
+}
+.logos-row {
+  display: flex;
+  gap: 10px;
+  margin-left: 20px;
+  align-items: flex-start; /* Align the logos to the top */
+}
+.logo-img {
+  width: 210px; /* Keep the size as is */
+  height: 180px; /* Keep the size as is */
 }
 /*--------head------------*/
 /*--------header------------*/
