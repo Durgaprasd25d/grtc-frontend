@@ -2,11 +2,20 @@
 .head {
   padding: 20px 0;
   color: #fff;
-  height: 150px;
-  /* border: 2px solid black; */
-  padding-top: 40px;
+  /* background-color: #333; Ensure head section has a background color */
 }
-.logo h1 {
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the text horizontally */
+  text-align: center; /* Center the text within the div */
+}
+.logo-text h1 {
   font-size: 35px;
   font-weight: 900;
 }
@@ -16,18 +25,27 @@
 .logos-row {
   display: flex;
   gap: 10px;
-  margin-left: 20px;
-  align-items: flex-start; /* Align the logos to the top */
+  /* margin-left: auto; Push the logos to the right */
+  align-items: center;
 }
 .logo-img {
-  width: 210px; /* Keep the size as is */
-  height: 180px; /* Keep the size as is */
+  width: 115px;
+  height: 115px;
+  /* clip-path: circle(50%); Example of a circular clip-path */
+  object-fit: cover; /* Ensures the image covers the container */
+}
+.logo-text span {
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 }
 /*--------head------------*/
+
 /*--------header------------*/
 header {
   background-color: rgba(255, 255, 255, 0.2);
   margin: 0 30px;
+  padding-top: 20px; /* Add padding to separate from Head */
+  position: relative;
+  top: 20px; /* Add top margin to push it below the Head */
 }
 header .nav {
   display: flex !important;
@@ -56,14 +74,42 @@ header ul li a:hover {
   display: none;
 }
 /*--------header------------*/
+
+/* Media Queries */
+@media screen and (max-width: 1024px) {
+  .logo-text h1 {
+    font-size: 28px;
+  }
+  .logo-img {
+    width: 120px;
+    height: 120px;
+  }
+}
+
 @media screen and (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .logo-text {
+    margin-bottom: 20px;
+  }
+  .logos-row {
+    margin-left: 0;
+    justify-content: center;
+  }
+  .social {
+    margin-top: 20px;
+  }
   .start {
     clip-path: none;
+    padding: 20px 40px;
   }
   header {
     margin: 0;
     background-color: #1eb2a6;
     position: relative;
+    top: 0;
   }
   header ul.flexSB {
     display: none;
@@ -86,5 +132,24 @@ header ul li a:hover {
     left: 0;
     width: 100%;
     background-color: #1eb2a6;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .logo-text h1 {
+    font-size: 24px;
+  }
+  .logo-text span {
+    font-size: 14px;
+  }
+  .logo-img {
+    width: 100px;
+    height: 100px;
+  }
+  .social {
+    margin-top: 10px;
+  }
+  .head {
+    text-align: center;
   }
 }

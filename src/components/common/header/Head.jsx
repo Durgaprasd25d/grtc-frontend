@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logo from "../../../Images/logo/logo.png";
+import Logo_1 from "../../../Images/logo/gurukrupa.png";
+import Logo_2 from "../../../Images/logo/msme-ssi-registration.png";
+import Logo_3 from "../../../Images/logo/Logo ISO_9001.png";
 
 const Head = () => {
   return (
@@ -9,28 +11,34 @@ const Head = () => {
         <div className="container flexSB">
           <Link to="/">
             <div
-              className="logo"
               style={{
-                height: "168px",
-                color: "rgb(255, 255, 255)",
-                marginTop: "-50px",
+                color: "#fff",
+                marginTop: "10px",
+                textAlign: "center",
+                justifyContent: "center",
                 display: "flex",
-                alignItems: "center",
-                width: "150px",
               }}
+              className="logo-text"
             >
-              <div>
-                <h1> GURUKRUPA</h1>
-                <span>RESEARCH AND TRAINING CENTRE</span>
-              </div>
-              <div className="logos-row">
-                <img src={Logo} alt="Logo 1" className="logo-img" />
-                <img src={Logo} alt="Logo 2" className="logo-img" />
-                <img src={Logo} alt="Logo 3" className="logo-img" />
-              </div>
+              <h1
+                style={{
+                  fontSize: "80px",
+                  fontWeight: "900",
+                  fontFamily: "initial",
+                }}
+              >
+                GURUKRUPA
+              </h1>
+              <span style={{ fontSize: "20px" }}>
+                RESEARCH AND TRAINING CENTRE
+              </span>
             </div>
           </Link>
-
+          <div className="logos-row">
+            <img src={Logo_1} alt="Logo 1" className="logo-img" />
+            <img src={Logo_2} style={{width:'120px',height:'120px'}} alt="Logo 2" className="logo-img" />
+            <img src={Logo_3}  alt="Logo 3" className="logo-img" />
+          </div>
           <div className="social">
             <i className="fab fa-facebook-f icon"></i>
             <i className="fab fa-instagram icon"></i>
