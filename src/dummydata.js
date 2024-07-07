@@ -34,7 +34,7 @@ export const student = {
     "https://images.unsplash.com/photo-1584445584400-1a7cc5de77ae?q=80&w=1960&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 };
 
-//About us 
+//About us
 
 export const homeAbout = [
   {
@@ -87,20 +87,6 @@ export const awrapper = [
 
 //course card
 export const coursesCard = [
-  {
-    id: 1,
-    cover: "../images/courses/c1.png",
-    coursesName: "Introducing to Software Engineering",
-    courTeacher: [
-      {
-        dcover: "./images/back.webp",
-        name: "by Satyapir Pradhan",
-        totalTime: "50 lectures (190 hrs)",
-      },
-    ],
-    priceAll: "$100 All Course",
-    pricePer: "$15 per month",
-  },
   {
     id: 2,
     cover: "../images/courses/c2.png",
@@ -391,7 +377,8 @@ export const faq = [
 
 export const blog = [
   {
-    cover: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Replace with actual image URL
+    cover:
+      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Replace with actual image URL
     title: "Build your Dream Software & Engineering Career",
   },
 ];
@@ -424,20 +411,71 @@ export const testimonal = [
 
 //notice
 export const notices = [
-  { id: 1, title: "Introduction: A sentence introducing the purpose of the notice.", date: "2024-06-22" },
-  { id: 2, title: "The Green Valley School is excited to announce the Annual Science", date: "2024-06-21" },
-  { id: 3, title: "Interested students must register with their science teachers by March 5, 2024.", date: "2024-06-20" },
-  { id: 4, title: "All projects must adhere to the theme and be original work.", date: "2024-06-19" },
-  { id: 5, title: "Projects can be submitted individually or in teams of up to three members.", date: "2024-06-18" },
+  {
+    id: 1,
+    title: "Introduction: A sentence introducing the purpose of the notice.",
+    date: "2024-06-22",
+  },
+  {
+    id: 2,
+    title: "The Green Valley School is excited to announce the Annual Science",
+    date: "2024-06-21",
+  },
+  {
+    id: 3,
+    title:
+      "Interested students must register with their science teachers by March 5, 2024.",
+    date: "2024-06-20",
+  },
+  {
+    id: 4,
+    title: "All projects must adhere to the theme and be original work.",
+    date: "2024-06-19",
+  },
+  {
+    id: 5,
+    title:
+      "Projects can be submitted individually or in teams of up to three members.",
+    date: "2024-06-18",
+  },
 ];
 
-
-  // Dummy data for images
-export  const gallery = [
-    { id: 1, title: "Image 1", url: "https://images.unsplash.com/photo-1656592830994-89c79ba63465?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-    { id: 2, title: "Image 2", url: "https://images.unsplash.com/photo-1718884168846-236490e12933?q=80&w=1886&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-    { id: 3, title: "Image 3", url: "https://images.unsplash.com/photo-1718807384791-f83c72cba570?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-    { id: 4, title: "Image 4", url: "https://images.unsplash.com/photo-1693077042176-4a1d2e1a0a37?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-    { id: 5, title: "Image 5", url: "https://images.unsplash.com/photo-1701623724288-1596147a9d2f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-    { id: 6, title: "Image 6", url: "https://images.unsplash.com/photo-1718362872329-d146e6b4675b?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-  ];
+// Dummy data for images
+export const gallery = [
+  {
+    id: 1,
+    title: "Image 1",
+    category:'dog',
+    url: "https://images.unsplash.com/photo-1656592830994-89c79ba63465?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  {
+    id: 2,
+    title: "Image 2",
+    category:'cat',
+    url: "https://images.unsplash.com/photo-1718884168846-236490e12933?q=80&w=1886&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  {
+    id: 3,
+    title: "Image 3",
+    category:'elephant',
+    url: "https://images.unsplash.com/photo-1718807384791-f83c72cba570?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  {
+    id: 4,
+    title: "Image 4",
+    category:'cat',
+    url: "https://images.unsplash.com/photo-1693077042176-4a1d2e1a0a37?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  {
+    id: 5,
+    title: "Image 5",
+    category:'cat',
+    url: "../images/photos/image_1.jpg",
+  },
+  {
+    id: 6,
+    title: "Image 6",
+    category:'Tiger',
+    url: "https://images.unsplash.com/photo-1718362872329-d146e6b4675b?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+];

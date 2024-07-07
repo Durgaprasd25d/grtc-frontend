@@ -3,6 +3,7 @@
   padding: 20px;
   margin-top: -20px; /* Adjust this value to move the whole container up */
 }
+
 .verification-box-section {
   display: flex;
   justify-content: space-between;
@@ -30,7 +31,6 @@
   padding: 20px;
 }
 
-
 .verification-profile-pic {
   width: 100px;
   height: 100px;
@@ -38,15 +38,16 @@
   background-color: white;
   border-radius: 50%;
   position: absolute;
-  /* top: -5px; */
   right: 16px;
 }
 
 .profile-pic-img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
+  margin-top: 25px;
+  width: 150px;
+  height: 150px;
+  box-shadow: -7px 8px 6px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  /* object-fit: cover; */
 }
 
 /* Typography Styles */
@@ -71,7 +72,11 @@
   justify-content: center;
   align-items: center;
 }
+
 .certificate-img {
   height: 300px; /* Fixing the height of the certificate image */
   width: auto; /* Ensuring the width adjusts to maintain aspect ratio */
+}
+.default-certificate {
+  filter: blur(5px); 
 }

@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
+import axios from "axios";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   Container,
   Paper,
@@ -12,86 +14,12 @@ import {
   RadioGroup,
   FormControlLabel,
   FormControl,
+  ListItem,
+  ListItemText,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import axios from "axios";
-import { jwtDecode } from "jwt-decode";
-import { useHistory, useLocation } from "react-router-dom";
 import Back from "../common/back/Back";
 
-const useStyles = makeStyles((theme) => ({
-  container: { padding: theme.spacing(3), backgroundColor: "#f5f5f5" },
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: theme.spacing(3),
-    [theme.breakpoints.down("sm")]: {
-      flexDirection: "column",
-      alignItems: "flex-start",
-    },
-  },
-  profilePic: {
-    width: theme.spacing(7),
-    height: theme.spacing(7),
-    marginRight: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
-  timer: {
-    fontSize: "1.5rem",
-    fontWeight: "bold",
-    color: "#ff0000",
-    [theme.breakpoints.down("sm")]: {
-      marginBottom: theme.spacing(2),
-    },
-  },
-  questionContainer: {
-    height: "550px",
-    padding: theme.spacing(3),
-  },
-  questionPalette: {
-    padding: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-  },
-  paletteButton: {
-    margin: theme.spacing(1),
-    width: theme.spacing(5),
-    height: theme.spacing(5),
-    fontSize: "0.875rem",
-  },
-  legend: {
-    padding: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-    height: "32%",
-  },
-  legendItem: {
-    display: "flex",
-    alignItems: "center",
-    marginBottom: theme.spacing(1),
-  },
-  legendCircle: {
-    width: theme.spacing(2),
-    height: theme.spacing(2),
-    borderRadius: "50%",
-    marginRight: theme.spacing(1),
-  },
-  actionButtons: {
-    display: "flex",
-    height: "40px",
-    flexDirection: "column",
-    gap: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
-      flexDirection: "row",
-    },
-  },
-  errorMessage: {
-    color: theme.palette.error.main,
-    marginTop: theme.spacing(2),
-  },
-}));
-
 const Exam = () => {
-  const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
   const [exam, setExam] = useState(null);
@@ -101,8 +29,11 @@ const Exam = () => {
   const [questionStatus, setQuestionStatus] = useState({});
   const [timerSeconds, setTimerSeconds] = useState(3600);
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(true);
+  const timerIntervalRef = useRef(null);
 
   const handleSubmitExam = useCallback(async () => {
+    console.log("Submitting exam...");
     const unansweredQuestions = exam.questions.some(
       (question) => !studentAnswers[question._id]
     );
@@ -134,12 +65,16 @@ const Exam = () => {
       );
 
       if (submitResponse.data) {
-        alert("Exam submitted successfully");
-        history.push(
-          `/result?submitResponse=${encodeURIComponent(
-            JSON.stringify(submitResponse.data)
-          )}`
-        );
+        // Update local storage with new student data
+        const updatedStudentData = {
+          ...studentData,
+          examsAttended: [...(studentData.examsAttended || []), examId],
+          // You can add more fields if needed
+        };
+        localStorage.setItem("studentData", JSON.stringify(updatedStudentData));
+
+        // Redirect to result page with result data
+        history.push(`/result?result=${encodeURIComponent(JSON.stringify(submitResponse.data))}`);
       } else {
         setErrorMessage("Failed to submit the exam.");
       }
@@ -151,11 +86,11 @@ const Exam = () => {
         setErrorMessage("Failed to submit the exam. Please try again.");
       }
     }
-    console.log(answersPayload);
-  }, [exam, history, location.search, studentAnswers]);
+  }, [exam, history, location.search, studentAnswers, studentData]);
 
   useEffect(() => {
     const fetchExamData = async () => {
+      console.log("Fetching exam data...");
       const token = localStorage.getItem("token");
 
       if (!token) {
@@ -164,14 +99,6 @@ const Exam = () => {
       }
 
       try {
-        const decodedToken = jwtDecode(token);
-        if (decodedToken.exp < Date.now() / 1000) {
-          history.push("/login");
-          return;
-        }
-
-        setStudentData(JSON.parse(localStorage.getItem("studentData")));
-
         const examId = new URLSearchParams(location.search).get("id");
         const response = await axios.get(
           `https://grtc-new-node-backend.onrender.com/api/exam/${examId}/studentId`,
@@ -181,35 +108,36 @@ const Exam = () => {
         );
 
         setExam(response.data);
+        setStudentData(JSON.parse(localStorage.getItem("studentData")));
+        setLoading(false);
 
-        const timerInterval = setInterval(() => {
-          setTimerSeconds((prev) => {
-            if (prev <= 1) {
-              clearInterval(timerInterval);
-              handleSubmitExam();
-              return 0;
-            }
-            return prev - 1;
-          });
-        }, 1000);
-
-        return () => clearInterval(timerInterval);
+        if (!timerIntervalRef.current) {
+          timerIntervalRef.current = setInterval(() => {
+            setTimerSeconds((prev) => {
+              if (prev <= 1) {
+                clearInterval(timerIntervalRef.current);
+                handleSubmitExam();
+                return 0;
+              }
+              return prev - 1;
+            });
+          }, 1000);
+        }
       } catch (error) {
         console.error("Error fetching exam data:", error);
         setErrorMessage("Failed to fetch exam data. Please try again.");
+        setLoading(false);
       }
     };
 
     fetchExamData();
+
+    return () => clearInterval(timerIntervalRef.current);
   }, [history, location.search, handleSubmitExam]);
 
   const handleAnswerChange = (questionId, answer) => {
     setStudentAnswers((prev) => ({ ...prev, [questionId]: answer }));
     setQuestionStatus((prev) => ({ ...prev, [questionId]: "answered" }));
-  };
-
-  const handleQuestionNavigation = (index) => {
-    setCurrentQuestion(index);
   };
 
   const handleSaveAnswer = () => {
@@ -223,33 +151,12 @@ const Exam = () => {
     }
   };
 
-  const handleSaveAndMarkForReview = () => {
-    const activeQuestionId = exam.questions[currentQuestion]._id;
-    const selectedOption = studentAnswers[activeQuestionId];
-    if (selectedOption) {
-      setQuestionStatus((prev) => ({
-        ...prev,
-        [activeQuestionId]: "saved",
-      }));
-    } else {
-      delete studentAnswers[activeQuestionId];
-    }
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   };
 
-  const handleMark = () => {
-    const activeQuestionId = exam.questions[currentQuestion]._id;
-    if (questionStatus[activeQuestionId] === "marked") {
-      setQuestionStatus((prev) => ({
-        ...prev,
-        [activeQuestionId]: undefined,
-      }));
-    } else {
-      setQuestionStatus((prev) => ({
-        ...prev,
-        [activeQuestionId]: "marked",
-      }));
-    }
-  };
   const profilePicUrl = studentData.profilePic
     ? `https://grtc-new-node-backend.onrender.com/${studentData.profilePic.replace(
         /\\/g,
@@ -263,12 +170,12 @@ const Exam = () => {
     return initials;
   };
 
+  if (loading) {
+    return <CircularProgress />;
+  }
+
   if (!exam) {
-    return (
-      <Container className={classes.container} maxWidth="md">
-        <CircularProgress />
-      </Container>
-    );
+    return <Typography>Error loading exam data.</Typography>;
   }
 
   const { questions } = exam;
@@ -276,176 +183,99 @@ const Exam = () => {
   return (
     <>
       <Back title="Exam" />
-      <Container className={classes.container} maxWidth="md">
-        <Box className={classes.header}>
-          <Typography
-            variant="h4"
-            component="h1"
-            style={{ fontWeight: "bold" }}
-          >
-            {exam.title}
-          </Typography>
-          <Box id="studentInfo" className={classes.header}>
-            {profilePicUrl ? (
+      <Container maxWidth="lg">
+        <Grid container spacing={3}>
+          <Grid item xs={3}>
+            <Paper elevation={3} style={{ padding: "10px" }}>
+              <Typography variant="h6">Questions</Typography>
+              <Grid container spacing={1}>
+                {questions.length === 0 ? (
+                  <Typography>No questions available for this exam.</Typography>
+                ) : (
+                  questions.map((question, index) => (
+                    <Grid item xs={3} key={question._id}>
+                      <ListItem
+                        button
+                        onClick={() => setCurrentQuestion(index)}
+                        selected={currentQuestion === index}
+                        style={{ justifyContent: "center" }}
+                      >
+                        <ListItemText primary={index + 1} />
+                      </ListItem>
+                    </Grid>
+                  ))
+                )}
+              </Grid>
+            </Paper>
+          </Grid>
+          <Grid item xs={9}>
+            <Paper elevation={3} style={{ padding: "20px" }}>
+              <Typography variant="h4">{exam.title}</Typography>
+              <Typography variant="subtitle1">Timer: {formatTime(timerSeconds)}</Typography>
+              <Typography variant="subtitle1">Student: {studentData.name}</Typography>
               <Avatar
                 src={profilePicUrl}
-                alt="Profile"
-                className={classes.profilePic}
-              />
-            ) : (
-              <Avatar className={classes.profilePic}>
+                alt="Student Avatar"
+                style={{ width: "100px", height: "100px", marginBottom: "20px" }}
+              >
                 {getInitials(studentData.name)}
               </Avatar>
-            )}
-            <div>
-              <Typography variant="h6">{studentData.name}</Typography>
-              <Typography variant="body2">
-                Registration No: {studentData.registrationNo}
-              </Typography>
-            </div>
-          </Box>
-          <Typography className={classes.timer} id="timer">
-            {`${Math.floor(timerSeconds / 3600)
-              .toString()
-              .padStart(2, "0")}:${Math.floor((timerSeconds % 3600) / 60)
-              .toString()
-              .padStart(2, "0")}:${(timerSeconds % 60)
-              .toString()
-              .padStart(2, "0")}`}
-          </Typography>
-        </Box>
-        {errorMessage && (
-          <Typography className={classes.errorMessage}>
-            {errorMessage}
-          </Typography>
-        )}
-        <Grid container spacing={3}>
-          <Grid item xs={9} id="questionContainer">
-            {questions.map((question, index) => (
-              <Paper
-                key={question._id}
-                className={`${classes.questionContainer} ${
-                  index === currentQuestion ? "active" : ""
-                }`}
-                style={{
-                  display: index === currentQuestion ? "block" : "none",
-                }}
-              >
-                <Typography variant="h6">Question {index + 1}</Typography>
-                <Typography>{question.questionText}</Typography>
-                <FormControl component="fieldset">
-                  <RadioGroup
-                    value={studentAnswers[question._id] || ""}
-                    onChange={(e) =>
-                      handleAnswerChange(question._id, e.target.value)
-                    }
-                  >
-                    {question.options.map((option, idx) => (
-                      <FormControlLabel
-                        key={idx}
-                        value={option}
-                        control={<Radio />}
-                        label={option}
-                      />
-                    ))}
-                  </RadioGroup>
-                </FormControl>
-              </Paper>
-            ))}
-          </Grid>
-          <Grid item xs={3}>
-            <Paper className={classes.questionPalette}>
-              <Typography variant="h6" style={{ marginLeft: 27 }}>
-                Question Palette:
-              </Typography>
-              <Box display="flex" flexWrap="wrap">
-                {questions.map((_, index) => (
-                  <Button
-                    key={index}
-                    variant="contained"
-                    className={classes.paletteButton}
-                    onClick={() => handleQuestionNavigation(index)}
-                    style={{
-                      backgroundColor: questionStatus[questions[index]._id]
-                        ? questionStatus[questions[index]._id] === "answered"
-                          ? "#006400"
-                          : questionStatus[questions[index]._id] === "saved"
-                          ? "#1E90FF"
-                          : "#FFD700"
-                        : "#8b0000",
-                      color: "#fff",
-                    }}
-                  >
-                    {index + 1}
-                  </Button>
-                ))}
-              </Box>
-            </Paper>
-            <Paper className={classes.legend}>
-              <Typography variant="h6">Legend:</Typography>
-              <div className={classes.legendItem}>
-                <span
-                  className={classes.legendCircle}
-                  style={{ backgroundColor: "#006400" }}
-                ></span>
-                Answered
-              </div>
-              <div className={classes.legendItem}>
-                <span
-                  className={classes.legendCircle}
-                  style={{ backgroundColor: "#1E90FF" }}
-                ></span>
-                Saved
-              </div>
-              <div className={classes.legendItem}>
-                <span
-                  className={classes.legendCircle}
-                  style={{ backgroundColor: "#FFD700" }}
-                ></span>
-                Mark
-              </div>
-              <div className={classes.legendItem}>
-                <span
-                  className={classes.legendCircle}
-                  style={{ backgroundColor: "#8b0000" }}
-                ></span>
-                Not Answered
-              </div>
-            </Paper>
-            <Box className={classes.actionButtons}>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleSaveAnswer}
-              >
-                Save
-              </Button>
-              <div style={{ width: "120px" }}>
+              {questions.length === 0 ? (
+                <Typography variant="h6">No questions available for this exam.</Typography>
+              ) : (
+                <>
+                  <Typography variant="h6">
+                    Question {currentQuestion + 1}: {questions[currentQuestion].questionText}
+                  </Typography>
+                  <FormControl component="fieldset">
+                    <RadioGroup
+                      aria-label={`question-${currentQuestion + 1}`}
+                      name={`question-${currentQuestion + 1}`}
+                      value={studentAnswers[questions[currentQuestion]._id] || ""}
+                      onChange={(e) =>
+                        handleAnswerChange(questions[currentQuestion]._id, e.target.value)
+                      }
+                    >
+                      {questions[currentQuestion].options.map((option, idx) => (
+                        <FormControlLabel
+                          key={idx}
+                          value={option}
+                          control={<Radio />}
+                          label={option}
+                        />
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                </>
+              )}
+              <Box mt={3}>
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={handleSaveAndMarkForReview}
-                  style={{
-                    width: "100%", // Adjust the width as needed
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
+                  onClick={handleSaveAnswer}
+                  disabled={questions.length === 0}
                 >
-                  Save & Mark
+                  Save Answer
                 </Button>
-              </div>
-              <Button variant="contained" color="primary" onClick={handleMark}>
-                Mark
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={handleSubmitExam}
-              >
-                Submit
-              </Button>
-            </Box>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSubmitExam}
+                  style={{ marginLeft: "10px" }}
+                  disabled={
+                    questions.length === 0 ||
+                    Object.keys(studentAnswers).length !== questions.length
+                  }
+                >
+                  Submit Exam
+                </Button>
+              </Box>
+              {errorMessage && (
+                <Typography variant="subtitle2" color="error">
+                  {errorMessage}
+                </Typography>
+              )}
+            </Paper>
           </Grid>
         </Grid>
       </Container>

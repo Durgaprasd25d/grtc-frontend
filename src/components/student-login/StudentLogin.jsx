@@ -9,7 +9,7 @@ import {
   createTheme,
   ThemeProvider,
   Grid,
-  CircularProgress, // Step 1: Import CircularProgress
+  CircularProgress,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -53,12 +53,12 @@ const Login = () => {
   const history = useHistory();
   const [registrationNo, setRegistrationNo] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false); // Step 2: Initialize loading state
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      setLoading(true); // Step 3: Set loading to true when form is submitted
+      setLoading(true);
       const response = await axios.post(
         "https://grtc-new-node-backend.onrender.com/api/students/login",
         {
@@ -72,26 +72,23 @@ const Login = () => {
         JSON.stringify(response.data.student)
       );
       alert("Login Success");
-      setLoading(false); // Step 3: Set loading to false after successful login
+      setLoading(false);
       history.push("/exam-list");
     } catch (error) {
       if (error.response) {
-        // Server responded with a status other than 200 range
         console.error("Login failed:", error.response.data.message);
         alert(`Login failed: ${error.response.data.message}`);
       } else if (error.request) {
-        // Request was made but no response was received
         console.error("No response from server:", error.request);
         alert("No response from server. Please try again later.");
       } else {
-        // Something else caused the error
         console.error("Error:", error.message);
         alert(`Error: ${error.message}`);
       }
-      setLoading(false); // Step 3: Set loading to false after login failure
+      setLoading(false);
     }
   };
-  
+
   return (
     <>
       <Back title="Student Login" />
@@ -135,7 +132,6 @@ const Login = () => {
                   />
                 </Grid>
               </Grid>
-              {/* Step 3: Display CircularProgress based on loading state */}
               {loading ? (
                 <CircularProgress style={{ margin: "20px 20px 20px 180px", color: "#1eb2a6" }} />
               ) : (

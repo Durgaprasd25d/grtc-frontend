@@ -1,39 +1,41 @@
-import React, {  useState } from "react"
-import { faq } from "../../dummydata"
-import Heading from "../common/heading/Heading"
+import React, { useState } from "react";
+import { faq } from "../../dummydata";
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Grid } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Heading from "../common/heading/Heading";
 
 const Faq = () => {
-  const [click, setClick] = useState(false)
+  const [expanded, setExpanded] = useState(null);
 
-  const toggle = (index) => {
-    if (click === index) {
-      return setClick(null)
-    }
-    setClick(index)
-  }
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : null);
+  };
 
   return (
     <>
-      <Heading subtitle='FAQS' title='Frequesntly Ask Question' />
-      <section className='faq'>
-        <div className='container'>
-          {faq.map((val, index) => (
-            <div className='box'>
-              <button className='accordion' onClick={() => toggle(index)} key={index}>
-                <h2>{val.title}</h2>
-                <span>{click === index ? <i className='fa fa-chevron-down'></i> : <i className='fa fa-chevron-right'></i>}</span>
-              </button>
-              {click === index ? (
-                <div className='text'>
-                  <p>{val.desc}</p>
-                </div>
-              ) : null}
-            </div>
-          ))}
-        </div>
+      <Heading subtitle="FAQS" title="Frequently Asked Questions" />
+      <section className='faq bg-gray-100 py-8'>
+        <Grid container justifyContent="center">
+          <Grid item xs={12} md={8} lg={6}>
+            {faq.map((val, index) => (
+              <Accordion key={index} expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls={`panel${index}-content`}
+                  id={`panel${index}-header`}
+                >
+                  <Typography>{val.title}</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography>{val.desc}</Typography>
+                </AccordionDetails>
+              </Accordion>
+            ))}
+          </Grid>
+        </Grid>
       </section>
     </>
-  )
-}
+  );
+};
 
-export default Faq
+export default Faq;
