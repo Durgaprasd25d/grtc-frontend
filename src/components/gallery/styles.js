@@ -2,26 +2,42 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(4),
+    padding: theme.spacing(2),
   },
   card: {
-    maxWidth: 345,
-    cursor: "pointer",
+    maxWidth: "100%",
   },
   media: {
     height: 140,
   },
-  folderCard: {
+  modal: {
     display: "flex",
-    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    height: 140,
   },
-  folderIcon: {
-    fontSize: 50,
-    color: theme.palette.primary.main,
+  modalContent: {
+    outline: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  modalImage: {
+    maxWidth: "50%",
+    maxHeight: "90%",
+    marginRight:"45px"
+  },
+  prevButton: {
+    position: "absolute",
+    left: 0,
+  },
+  nextButton: {
+    position: "absolute",
+    right: "50px",
+  },
+  backButton: {
+    backgroundColor: "#1eb2a6",
+    color: "white",
+    margin: "5px 5px 5px 0",
   },
 }));
 

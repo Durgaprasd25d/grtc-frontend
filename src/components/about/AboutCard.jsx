@@ -1,32 +1,38 @@
-import React from "react"
-import Heading from "../common/heading/Heading"
-import "./about.css"
-import { homeAbout } from "../../dummydata"
-import Awrapper from "./Awrapper"
+import React, { useRef, useEffect } from "react";
+import Heading from "../common/heading/Heading";
+import "./about.css";
+import { homeAbout } from "../../dummydata";
+import Awrapper from "./Awrapper";
 
 const AboutCard = () => {
+  const mainContentRef = useRef(null);
+
+  useEffect(() => {
+    mainContentRef.current.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
   return (
     <>
-      <section className='aboutHome'>
-        <div className='container flexSB'>
-          <div className='left row'>
-            <img src='./images/about.webp' alt='' />
+      <section className="aboutHome" ref={mainContentRef}>
+        <div className="container flexSB">
+          <div className="left row">
+            <img src="./images/about.webp" alt="" />
           </div>
-          <div className='right row'>
-            <Heading subtitle='LEARN ANYTHING' title='Benefits About Online Learning Expertise' />
-            <div className='items'>
-              {homeAbout.map((val,index) => {
+          <div className="right row">
+            <Heading subtitle="LEARN ANYTHING" title="Benefits About Online Learning Expertise" />
+            <div className="items">
+              {homeAbout.map((val, index) => {
                 return (
-                  <div key={index} className='item flexSB'>
-                    <div className='img'>
-                      <img src={val.cover} alt='' />
+                  <div key={index} className="item flexSB">
+                    <div className="img">
+                      <img src={val.cover} alt="" />
                     </div>
-                    <div className='text'>
+                    <div className="text">
                       <h2>{val.title}</h2>
                       <p>{val.desc}</p>
                     </div>
                   </div>
-                )
+                );
               })}
             </div>
           </div>
@@ -34,7 +40,7 @@ const AboutCard = () => {
       </section>
       <Awrapper />
     </>
-  )
-}
+  );
+};
 
-export default AboutCard
+export default AboutCard;

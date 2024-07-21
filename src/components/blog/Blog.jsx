@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Back from "../common/back/Back";
 import { Grid, Typography, Paper, Box } from "@mui/material"; // Import necessary components from Material-UI
 
 const Blog = () => {
+  const textAreaRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      textAreaRef.current.scrollIntoView({ behavior: "smooth" });
+    };
+
+    // Wait for CSS transitions to complete before scrolling
+    setTimeout(handleScroll, 300); // Adjust timing as per your CSS transition duration
+  }, []);
+
   return (
     <>
       {/* Header with title */}
@@ -30,9 +41,9 @@ const Blog = () => {
             <Typography variant="h5" gutterBottom>
               Director's Message
             </Typography>
-            <Typography variant="body1" style={{padding:'2px'}} sx={{ flexGrow: 1, maxHeight: 400, overflow: 'auto', textAlign: 'justify' }}>
+            <Typography variant="body1" style={{padding:'2px'}} sx={{ flexGrow: 1, maxHeight: 400, overflow: 'auto', textAlign: 'justify' }} ref={textAreaRef}>
               {/* Justified text with reduced height and scrolling */}
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat... volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat... volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat... volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat... volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat...
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat...
             </Typography>
           </Paper>
         </Grid>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Back from "../common/back/Back";
 import "./contact.css";
 
@@ -6,10 +6,17 @@ const Contact = () => {
   const map =
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3895.1343012355565!2d85.6329796!3d19.9795662!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a19b5bb1892afa3%3A0xc2f48005b4544ef9!2sGurukul%20institute%20(Computer%20education)!5e0!3m2!1sen!2sin!4v1652535615693!5m2!1sen!2sin&maptype=satellite&zoom=20";
 
+  const contactRef = useRef(null);
+
+  useEffect(() => {
+    // Scroll to the top of the contact section on render or map change
+    contactRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [map]); // Depend on map to scroll to top when map is changed
+
   return (
     <>
       <Back title="Contact us" />
-      <section className="contacts padding">
+      <section className="contacts padding" ref={contactRef}>
         <div className="container shadow flexSB">
           <div className="left row">
             <iframe

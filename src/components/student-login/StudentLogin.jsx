@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Avatar,
   Button,
@@ -54,6 +54,16 @@ const Login = () => {
   const [registrationNo, setRegistrationNo] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const mainContentRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      mainContentRef.current.scrollIntoView({ behavior: "smooth" });
+    };
+
+    // Wait for CSS transitions to complete before scrolling
+    setTimeout(handleScroll, 300); // Adjust timing as per your CSS transition duration
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -93,7 +103,7 @@ const Login = () => {
     <>
       <Back title="Student Login" />
       <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" ref={mainContentRef}>
           <CssBaseline />
           <div className={classes.paper}>
             <Avatar className={classes.avatar}>

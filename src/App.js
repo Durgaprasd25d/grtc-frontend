@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import "./App.css";
 import Header from "./components/common/header/Header";
 import About from "./components/about/About";
@@ -14,7 +15,7 @@ import Verification from "./components/verification/verification";
 import StudentLogin from "./components/student-login/StudentLogin";
 import ExamList from "./components/exam-list/ExamList";
 import Exam from "./components/exam/Exam";
-import Noticeboard from '../src/components/notice/NoticeBoard'
+import Noticeboard from "../src/components/notice/NoticeBoard";
 import ImageGallery from "./components/gallery/ImageGallery";
 import Result from "./components/result/Result";
 
@@ -39,6 +40,7 @@ function App() {
         <Route exact path="/verification" component={Verification} />
       </Switch>
       <Footer />
+      <Toaster position="top-right" reverseOrder={false} />
     </Router>
   );
 }

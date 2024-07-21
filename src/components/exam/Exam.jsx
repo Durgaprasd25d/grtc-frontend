@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useHistory, useLocation } from "react-router-dom";
 import {
@@ -18,6 +18,7 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import Back from "../common/back/Back";
+import toast from "react-hot-toast";
 
 const Exam = () => {
   const history = useHistory();
@@ -27,19 +28,22 @@ const Exam = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [studentAnswers, setStudentAnswers] = useState({});
   const [questionStatus, setQuestionStatus] = useState({});
-  const [timerSeconds, setTimerSeconds] = useState(3600);
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(true);
-  const timerIntervalRef = useRef(null);
+  const [timeLeft, setTimeLeft] = useState(3600); // 1 hour in seconds
 
-  const handleSubmitExam = useCallback(async () => {
+  const handleSubmitExam = useCallback(async (history, location) => {
+    setLoading(true);
     console.log("Submitting exam...");
+
     const unansweredQuestions = exam.questions.some(
       (question) => !studentAnswers[question._id]
     );
 
     if (unansweredQuestions) {
       setErrorMessage("Please answer all questions before submitting.");
+      toast.error("Please answer all questions before submitting.");
+      setLoading(false);
       return;
     }
 
@@ -65,28 +69,40 @@ const Exam = () => {
       );
 
       if (submitResponse.data) {
-        // Update local storage with new student data
         const updatedStudentData = {
           ...studentData,
           examsAttended: [...(studentData.examsAttended || []), examId],
-          // You can add more fields if needed
         };
         localStorage.setItem("studentData", JSON.stringify(updatedStudentData));
+        toast.success("Exam Submitted Successfully");
+        setLoading(false);
 
-        // Redirect to result page with result data
-        history.push(`/result?result=${encodeURIComponent(JSON.stringify(submitResponse.data))}`);
+        const examName = exam.title; // Assuming the exam object has a name property
+        console.log("Exam name:", examName); // Debugging line
+        history.push(
+          `/result?result=${encodeURIComponent(
+            JSON.stringify(submitResponse.data)
+          )}&examName=${encodeURIComponent(examName)}`
+        );
       } else {
         setErrorMessage("Failed to submit the exam.");
+        toast.error("Failed to submit the exam.");
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error submitting exam:", error);
+      setLoading(false);
+
       if (error.response && error.response.data.errors) {
-        setErrorMessage(error.response.data.errors[0].msg);
+        const errorMsg = error.response.data.errors[0].msg;
+        setErrorMessage(errorMsg);
+        toast.error(errorMsg);
       } else {
         setErrorMessage("Failed to submit the exam. Please try again.");
+        toast.error("Failed to submit the exam. Please try again.");
       }
     }
-  }, [exam, history, location.search, studentAnswers, studentData]);
+  }, [exam, studentAnswers, studentData]);
 
   useEffect(() => {
     const fetchExamData = async () => {
@@ -94,7 +110,7 @@ const Exam = () => {
       const token = localStorage.getItem("token");
 
       if (!token) {
-        history.push("/login");
+        history.push("/student-login");
         return;
       }
 
@@ -107,22 +123,10 @@ const Exam = () => {
           }
         );
 
+        console.log("Exam data:", response.data); // Debugging line
         setExam(response.data);
         setStudentData(JSON.parse(localStorage.getItem("studentData")));
         setLoading(false);
-
-        if (!timerIntervalRef.current) {
-          timerIntervalRef.current = setInterval(() => {
-            setTimerSeconds((prev) => {
-              if (prev <= 1) {
-                clearInterval(timerIntervalRef.current);
-                handleSubmitExam();
-                return 0;
-              }
-              return prev - 1;
-            });
-          }, 1000);
-        }
       } catch (error) {
         console.error("Error fetching exam data:", error);
         setErrorMessage("Failed to fetch exam data. Please try again.");
@@ -131,30 +135,23 @@ const Exam = () => {
     };
 
     fetchExamData();
+  }, [history, location.search]);
 
-    return () => clearInterval(timerIntervalRef.current);
-  }, [history, location.search, handleSubmitExam]);
+  useEffect(() => {
+    if (timeLeft === 0) {
+      handleSubmitExam(history, location);
+    }
+
+    const timerId = setInterval(() => {
+      setTimeLeft((prevTime) => prevTime - 1);
+    }, 1000);
+
+    return () => clearInterval(timerId);
+  }, [timeLeft, handleSubmitExam, history, location]);
 
   const handleAnswerChange = (questionId, answer) => {
     setStudentAnswers((prev) => ({ ...prev, [questionId]: answer }));
     setQuestionStatus((prev) => ({ ...prev, [questionId]: "answered" }));
-  };
-
-  const handleSaveAnswer = () => {
-    const activeQuestionId = exam.questions[currentQuestion]._id;
-    const selectedOption = studentAnswers[activeQuestionId];
-    if (selectedOption) {
-      setQuestionStatus((prev) => ({
-        ...prev,
-        [activeQuestionId]: "answered",
-      }));
-    }
-  };
-
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   };
 
   const profilePicUrl = studentData.profilePic
@@ -171,7 +168,18 @@ const Exam = () => {
   };
 
   if (loading) {
-    return <CircularProgress />;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </div>
+    );
   }
 
   if (!exam) {
@@ -211,29 +219,42 @@ const Exam = () => {
           <Grid item xs={9}>
             <Paper elevation={3} style={{ padding: "20px" }}>
               <Typography variant="h4">{exam.title}</Typography>
-              <Typography variant="subtitle1">Timer: {formatTime(timerSeconds)}</Typography>
-              <Typography variant="subtitle1">Student: {studentData.name}</Typography>
+              <Typography variant="subtitle1">
+                Student: {studentData.name}
+              </Typography>
               <Avatar
                 src={profilePicUrl}
                 alt="Student Avatar"
-                style={{ width: "100px", height: "100px", marginBottom: "20px" }}
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  marginBottom: "20px",
+                }}
               >
                 {getInitials(studentData.name)}
               </Avatar>
               {questions.length === 0 ? (
-                <Typography variant="h6">No questions available for this exam.</Typography>
+                <Typography variant="h6">
+                  No questions available for this exam.
+                </Typography>
               ) : (
                 <>
                   <Typography variant="h6">
-                    Question {currentQuestion + 1}: {questions[currentQuestion].questionText}
+                    Question {currentQuestion + 1}:{" "}
+                    {questions[currentQuestion].questionText}
                   </Typography>
                   <FormControl component="fieldset">
                     <RadioGroup
                       aria-label={`question-${currentQuestion + 1}`}
                       name={`question-${currentQuestion + 1}`}
-                      value={studentAnswers[questions[currentQuestion]._id] || ""}
+                      value={
+                        studentAnswers[questions[currentQuestion]._id] || ""
+                      }
                       onChange={(e) =>
-                        handleAnswerChange(questions[currentQuestion]._id, e.target.value)
+                        handleAnswerChange(
+                          questions[currentQuestion]._id,
+                          e.target.value
+                        )
                       }
                     >
                       {questions[currentQuestion].options.map((option, idx) => (
@@ -252,15 +273,7 @@ const Exam = () => {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={handleSaveAnswer}
-                  disabled={questions.length === 0}
-                >
-                  Save Answer
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSubmitExam}
+                  onClick={() => handleSubmitExam(history, location)}
                   style={{ marginLeft: "10px" }}
                   disabled={
                     questions.length === 0 ||
@@ -275,6 +288,10 @@ const Exam = () => {
                   {errorMessage}
                 </Typography>
               )}
+              <Typography variant="subtitle1" color="textSecondary">
+                Time left: {Math.floor(timeLeft / 60)}:
+                {String(timeLeft % 60).padStart(2, "0")}
+              </Typography>
             </Paper>
           </Grid>
         </Grid>

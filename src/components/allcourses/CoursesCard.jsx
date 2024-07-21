@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import "./courses.css";
 import { coursesCard } from "../../dummydata";
 
 const CoursesCard = () => {
+  const mainContentRef = useRef(null);
+
+  useEffect(() => {
+    mainContentRef.current.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
   return (
     <>
-      <section className="coursesCard">
+      <section className="coursesCard" ref={mainContentRef}>
         <div className="container grid4">
           {coursesCard.map((val) => (
             <div className="items" key={val.id}>

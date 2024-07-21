@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Box, Button, TextField, Container, Typography } from "@mui/material";
 import "./VerificationCard.css";
 import defaultCertifictate from "../../Images/default_certificate.avif";
@@ -21,6 +21,13 @@ const VerificationCard = () => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const mainContentRef = useRef(null);
+  const searchInputRef = useRef(null);
+
+  useEffect(() => {
+    mainContentRef.current.scrollIntoView({ behavior: "smooth" });
+    searchInputRef.current.focus();
+  }, []);
 
   const handleSubmit = async () => {
     setSubmitted(true);
@@ -55,7 +62,11 @@ const VerificationCard = () => {
   }
 
   return (
-    <Container maxWidth="lg" className="verification-card-container">
+    <Container
+      maxWidth="lg"
+      className="verification-card-container"
+      ref={mainContentRef}
+    >
       <Box
         className="verification-search-section"
         display="flex"
@@ -68,6 +79,7 @@ const VerificationCard = () => {
           className="verification-search-input"
           value={registrationNo}
           onChange={(e) => setRegistrationNo(e.target.value)}
+          inputRef={searchInputRef}
         />
         <Button
           style={{ marginLeft: "5px", backgroundColor: "#1eb2a6" }}
@@ -105,24 +117,80 @@ const VerificationCard = () => {
                 className="profile-pic-img"
               />
             </Box>
-            <Typography variant="body1" gutterBottom>
-              Name: {studentData.name}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              Registration No: {studentData.registrationNo}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              DOB: {studentData.dob}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              Date of Admission: {studentData.dateOfAdmission}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              Father's Name: {studentData.fatherName}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              Courses: {studentData.course}
-            </Typography>
+            <Box className="verification-details">
+              <Box className="verification-field-row">
+                <Typography
+                  variant="body1"
+                  gutterBottom
+                  style={{ fontWeight: "bold" }}
+                >
+                  Name:
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  {studentData.name}
+                </Typography>
+              </Box>
+              <Box className="verification-field-row">
+                <Typography
+                  variant="body1"
+                  gutterBottom
+                  style={{ fontWeight: "bold" }}
+                >
+                  Registration No:
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  {studentData.registrationNo}
+                </Typography>
+              </Box>
+              <Box className="verification-field-row">
+                <Typography
+                  variant="body1"
+                  gutterBottom
+                  style={{ fontWeight: "bold" }}
+                >
+                  DOB:
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  {studentData.dob}
+                </Typography>
+              </Box>
+              <Box className="verification-field-row">
+                <Typography
+                  variant="body1"
+                  gutterBottom
+                  style={{ fontWeight: "bold" }}
+                >
+                  Date of Admission:
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  {studentData.dateOfAdmission}
+                </Typography>
+              </Box>
+              <Box className="verification-field-row">
+                <Typography
+                  variant="body1"
+                  gutterBottom
+                  style={{ fontWeight: "bold" }}
+                >
+                  Father's Name:
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  {studentData.fatherName}
+                </Typography>
+              </Box>
+              <Box className="verification-field-row">
+                <Typography
+                  variant="body1"
+                  gutterBottom
+                  style={{ fontWeight: "bold" }}
+                >
+                  Courses:
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  {studentData.course}
+                </Typography>
+              </Box>
+            </Box>
           </Box>
           <Box
             className="verification-right-box"

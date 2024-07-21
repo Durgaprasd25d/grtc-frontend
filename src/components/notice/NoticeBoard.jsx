@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Container,
   Typography,
@@ -21,9 +21,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const NoticeBoard = () => {
   const classes = useStyles();
+  const lastNoticeRef = useRef(null);
+
+  useEffect(() => {
+    // Scroll to the last notice item on component mount
+    lastNoticeRef.current.scrollIntoView({ behavior: "smooth" });
+  }, []);
 
   return (
     <>
@@ -35,8 +40,13 @@ const NoticeBoard = () => {
         </Typography>
         <Divider />
 
-        {notices.map((notice) => (
-          <Paper key={notice.id} className={classes.paper} elevation={3}>
+        {notices.map((notice, index) => (
+          <Paper
+            key={notice.id}
+            ref={index === notices.length - 1 ? lastNoticeRef : null}
+            className={classes.paper}
+            elevation={3}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={8}>
                 <Typography variant="h6" gutterBottom>

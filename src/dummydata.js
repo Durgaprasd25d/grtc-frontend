@@ -445,37 +445,18 @@ export const gallery = [
   {
     id: 1,
     title: "Image 1",
-    category:'dog',
-    url: "https://images.unsplash.com/photo-1656592830994-89c79ba63465?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    category: 'cat',
+    url: "/images/photos/image_1.jpg",
+    coverImage: "/images/photos/image_1.jpg"
   },
   {
-    id: 2,
-    title: "Image 2",
-    category:'cat',
-    url: "https://images.unsplash.com/photo-1718884168846-236490e12933?q=80&w=1886&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    id: 1,
+    title: "Image 1",
+    category: 'dog',
+    url: "/images/photos/image_1.jpg",
+    coverImage: "/images/photos/image_1.jphgh"
   },
-  {
-    id: 3,
-    title: "Image 3",
-    category:'elephant',
-    url: "https://images.unsplash.com/photo-1718807384791-f83c72cba570?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    id: 4,
-    title: "Image 4",
-    category:'cat',
-    url: "https://images.unsplash.com/photo-1693077042176-4a1d2e1a0a37?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    id: 5,
-    title: "Image 5",
-    category:'cat',
-    url: "../images/photos/image_1.jpg",
-  },
-  {
-    id: 6,
-    title: "Image 6",
-    category:'Tiger',
-    url: "https://images.unsplash.com/photo-1718362872329-d146e6b4675b?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
+    // Add more items as needed
 ];
+
+

@@ -1,6 +1,5 @@
 import React from "react";
 import Heading from "../../common/heading/Heading";
-import { Link } from "react-router-dom";
 import "./Hero.css";
 
 const Hero = () => {
