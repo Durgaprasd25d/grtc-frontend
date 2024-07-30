@@ -13,8 +13,9 @@ import {
   Box,
   CircularProgress,
   Typography,
+  useMediaQuery,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import Back from "../common/back/Back";
@@ -23,37 +24,64 @@ const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: theme.spacing(8),
     padding: theme.spacing(2),
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(1),
+    },
   },
   header: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: theme.spacing(4),
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      marginBottom: theme.spacing(2),
+    },
   },
   profilePic: {
     height: 40,
     width: 40,
     borderRadius: "50%",
+    [theme.breakpoints.down('xs')]: {
+      height: 30,
+      width: 30,
+    },
   },
   table: {
     minWidth: 650,
+    [theme.breakpoints.down('xs')]: {
+      minWidth: 'auto',
+    },
+  },
+  tableCell: {
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '0.8rem',
+      padding: theme.spacing(0.5),
+    },
   },
   button: {
     backgroundColor: theme.palette.grey[300],
     "&:hover": {
       backgroundColor: theme.palette.grey[400],
     },
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '0.7rem',
+      padding: theme.spacing(0.5),
+    },
   },
   loaderContainer: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: '60vh', // Adjust based on your layout
+    minHeight: '60vh',
   },
 }));
 
 const ExamList = () => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
   const [exams, setExams] = useState([]);
   const [loading, setLoading] = useState(true);
   const history = useHistory();
@@ -66,14 +94,13 @@ const ExamList = () => {
         if (!token) {
           throw new Error("Token not found");
         }
-        
+
         const response = await axios.get("https://grtc-new-node-backend.onrender.com/api/exam/student", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        // Filter exams based on assigned exams
         const assignedExamIds = studentData.hasAssignedExams;
         const filteredExams = response.data.filter(exam => assignedExamIds.includes(exam._id));
 
@@ -82,7 +109,6 @@ const ExamList = () => {
       } catch (error) {
         console.error("Error fetching exams:", error.message);
         setLoading(false);
-        // Handle error (e.g., redirect to login page)
         history.push("/student-login");
       }
     };
@@ -91,15 +117,11 @@ const ExamList = () => {
   }, [history]);
 
   const isExamAttended = (examId) => {
-    // Check if attendedExamsList is defined and is an array
     if (studentData.attendedExamsList && Array.isArray(studentData.attendedExamsList)) {
-      // Check if examId exists in attendedExamsList
       return studentData.attendedExamsList.includes(examId);
     }
-    // Default to false if attendedExamsList is not properly defined
     return false;
   };
-  
 
   if (loading) {
     return (
@@ -126,17 +148,17 @@ const ExamList = () => {
           <Table className={classes.table} aria-label="exam table">
             <TableHead>
               <TableRow>
-                <TableCell>Exam Name</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell align="center">Action</TableCell>
+                <TableCell className={classes.tableCell}>Exam Name</TableCell>
+                <TableCell className={classes.tableCell}>Description</TableCell>
+                <TableCell align="center" className={classes.tableCell}>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {exams.map((exam) => (
                 <TableRow key={exam._id}>
-                  <TableCell>{exam.title}</TableCell>
-                  <TableCell>{exam.description}</TableCell>
-                  <TableCell align="center">
+                  <TableCell className={classes.tableCell}>{exam.title}</TableCell>
+                  <TableCell className={classes.tableCell}>{exam.description}</TableCell>
+                  <TableCell align="center" className={classes.tableCell}>
                     {isExamAttended(exam._id) ? (
                       <Typography variant="body2">Already Attended</Typography>
                     ) : (

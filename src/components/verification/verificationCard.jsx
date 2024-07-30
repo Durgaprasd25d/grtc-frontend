@@ -82,7 +82,7 @@ const VerificationCard = () => {
           inputRef={searchInputRef}
         />
         <Button
-          style={{ marginLeft: "5px", backgroundColor: "#1eb2a6" }}
+          style={{backgroundColor: "#1eb2a6" }}
           variant="contained"
           className="verification-submit-button"
           onClick={handleSubmit}

@@ -24,6 +24,7 @@
 .verification-submit-button {
   background-color: #1976d2;
   color: white;
+  margin-left: 5px !;
 }
 
 /* Left Box Styles */
@@ -89,4 +90,37 @@
 
 .default-certificate {
   filter: blur(5px);
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+  .verification-box-section {
+    flex-direction: column;
+  }
+  .verification-left-box{
+    margin-top: 25px;
+  }
+
+  .verification-left-box,
+  .verification-right-box {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  .verification-search-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .verification-search-input {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .verification-submit-button {
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 100%;
+  }
 }
