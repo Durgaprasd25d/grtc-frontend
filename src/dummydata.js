@@ -1,7 +1,7 @@
 export const images = [
   {
     imgURL:
-      "https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+      "/images/photos/image_1.jpg",
     imgAlt: "img-1",
   },
   {
@@ -19,6 +19,12 @@ export const images = [
       "https://images.pexels.com/photos/54455/cook-food-kitchen-eat-54455.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
     imgAlt: "img-4",
   },
+  {
+    imgURL:
+      "/images/photos/image_1.jpg",
+    imgAlt: "img-5",
+  },
+
 ];
 
 export const student = {

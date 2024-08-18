@@ -48,7 +48,7 @@ function CustomCarousel({ children }) {
       >
         {children.map((item, index) => (
           <div
-            className={`slider__item slider__item-active-${activeIndex + 1}`}
+            className={`slider__item ${activeIndex === index ? 'active' : ''}`}
             key={index}
           >
             {item}
@@ -56,7 +56,7 @@ function CustomCarousel({ children }) {
         ))}
 
         <div className="container__slider__links">
-          {children.map((item, index) => (
+          {children.map((_, index) => (
             <button
               key={index}
               className={

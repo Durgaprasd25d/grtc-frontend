@@ -23,9 +23,10 @@ const Home = () => {
       <Hero />
       <CustomCarousel>
         {images.map((image, index) => (
-          <img key={index} src={image.imgURL} alt={image.imgAlt} />
+          <img src={image.imgURL} alt={image.imgAlt} key={index} />
         ))}
       </CustomCarousel>
+
       <AboutCard />
       <HAbout />
       <Testimonal />
