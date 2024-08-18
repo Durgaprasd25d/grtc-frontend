@@ -1,30 +1,29 @@
 export const images = [
   {
-    imgURL:
-      "/images/photos/image_1.jpg",
+    imgURL: "/images/photos/slider/1.jpg",
     imgAlt: "img-1",
   },
   {
-    imgURL:
-      "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+    imgURL: "images/photos/slider/2.jpg",
     imgAlt: "img-2",
   },
+
   {
-    imgURL:
-      "https://images.pexels.com/photos/1128678/pexels-photo-1128678.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-    imgAlt: "img-3",
-  },
-  {
-    imgURL:
-      "https://images.pexels.com/photos/54455/cook-food-kitchen-eat-54455.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+    imgURL: "images/photos/slider/4.jpg",
     imgAlt: "img-4",
   },
   {
-    imgURL:
-      "/images/photos/image_1.jpg",
+    imgURL: "images/photos/slider/5.jpg",
     imgAlt: "img-5",
   },
-
+  {
+    imgURL: "images/photos/slider/6.jpg",
+    imgAlt: "img-6",
+  },
+  {
+    imgURL: "images/photos/slider/7.jpg",
+    imgAlt: "img-7",
+  },
 ];
 
 export const student = {
@@ -286,8 +285,8 @@ export const online = [
 //students image
 export const team = [
   {
-    cover: "./images/team/t1.webp",
-    name: "Ph.D Adrian Molises",
+    cover: "/images/photos/Student_List/guddi.jpg",
+    name: "Badal Sahoo",
     work: "DEVELOPER AND LEAD INSTRUCTOR",
   },
   {
@@ -451,18 +450,163 @@ export const gallery = [
   {
     id: 1,
     title: "Image 1",
-    category: 'cat',
-    url: "/images/photos/image_1.jpg",
-    coverImage: "/images/photos/image_1.jpg"
+    category: "Annual Function",
+    url: "/images/photos/annual_function/1.jpg",
+    coverImage: "/images/photos/annual_function/1.jpg",
   },
   {
-    id: 1,
-    title: "Image 1",
-    category: 'dog',
-    url: "/images/photos/image_1.jpg",
-    coverImage: "/images/photos/image_1.jphgh"
+    id: 2,
+    category: "Annual Function",
+    url: "/images/photos/annual_function/2.jpg",
   },
-    // Add more items as needed
+  {
+    id: 3,
+   category: "Annual Function",
+   url: "/images/photos/annual_function/3.jpg",
+  },
+  {
+    id: 4,
+    category: "Annual Function",
+    url: "/images/photos/annual_function/4.jpg",
+  },
+  {
+    id: 5,
+   category: "Annual Function",
+    url: "/images/photos/annual_function/5.jpg",
+  },
+  {
+    id: 6,
+    category: "Annual Function",
+    url: "/images/photos/annual_function/6.jpg",
+  },
+  {
+    id: 7,
+    category: "Annual Function",
+    url: "/images/photos/annual_function/7.jpg",
+  },
+  {
+    id: 8,
+    category: "Annual Function",
+    url: "/images/photos/annual_function/8.jpg",
+  },
+  {
+    d: 9,
+    category: "Annual Function",
+    url: "/images/photos/annual_function/9.jpg",
+  },
+  {
+    d: 10,
+    category: "Annual Function",
+    url: "/images/photos/annual_function/10.jpg",
+  },
+  {
+    id: 11,
+    category: "Annual Function",
+    url: "/images/photos/annual_function/11.jpg",
+  },
+  {
+    id: 12,
+    category: "Annual Function",
+    url: "/images/photos/annual_function/12.jpg",
+  },
+  {
+    id: 13,
+   category: "Annual Function",
+    url: "/images/photos/annual_function/13.jpg",
+  },
+  {
+    id: 14,
+    category: "Annual Function",
+    url: "/images/photos/annual_function/14.jpg",
+  },
+  {
+    id: 15,
+    category: "Annual Function",
+    url: "/images/photos/annual_function/15.jpg",
+  },
+  {
+    id: 16,
+    category: "Annual Function",
+    url: "/images/photos/annual_function/16.jpg",
+  },
+  {
+    id: 17,
+    category: "Annual Function",
+    url: "/images/photos/annual_function/17.jpg",
+  },
+  {
+    id: 18,
+    title: "Image 1",
+    category: "Kandagoda",
+    url: "/images/photos/kandagoda/1.jpg",
+    coverImage: "/images/photos/kandagoda/5.jpg",
+  },
+  {
+    id: 19,
+    category: "Kandagoda",
+    url: "/images/photos/kandagoda/2.jpg",
+   
+  },
+  {
+    id: 20,
+    category: "Kandagoda",
+    url: "/images/photos/kandagoda/3.jpg",
+  
+  },
+  {
+    id: 21,
+   category: "Kandagoda",
+    url: "/images/photos/kandagoda/4.jpg",
+   
+  },
+  {
+    id: 22,
+    category: "Kandagoda",
+    url: "/images/photos/kandagoda/5.jpg",
+    
+  },
+  {
+    id: 23,
+    category: "Kandagoda",
+    url: "/images/photos/kandagoda/6.jpg",
+  
+  },
+  {
+    id: 24,
+   category: "Kandagoda",
+    url: "/images/photos/kandagoda/7.jpg",
+  },
+  {
+    id: 25,
+    category: "Kandagoda",
+    url: "/images/photos/kandagoda/8.jpg",
+   
+  },
+  {
+    id: 26,
+    category: "Kandagoda",
+    url: "/images/photos/kandagoda/9.jpg",
+    
+  },
+  {
+    id: 27,
+    category: "Kandagoda",
+    url: "/images/photos/kandagoda/10.jpg",
+ 
+  },
+  {
+    id: 28,
+    title: "Image 3",
+    category: "Kandagoda",
+    url: "/images/photos/kandagoda/11.jpg",
+  },
+  {
+    id: 18,
+    title: "Image 1",
+    category: "PICNIC 2021",
+    url: "/images/photos/kandagoda/1.jpg",
+    coverImage: "/images/photos/kandagoda/5.jpg",
+  },
+
+  // Add more items as needed
 ];
-
-
