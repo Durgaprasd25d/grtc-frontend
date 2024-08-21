@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.contrastText,
-    '&:hover': {
+    "&:hover": {
       backgroundColor: theme.palette.primary.dark,
     },
   },
@@ -61,6 +61,7 @@ const Result = () => {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
   const [examName, setExamName] = useState("");
+  const [studentRegistrationNo, setStudentRegistrationNo] = useState("");
 
   useEffect(() => {
     const fetchResultData = async () => {
@@ -70,7 +71,9 @@ const Result = () => {
           decodeURIComponent(searchParams.get("result"))
         );
         const name = searchParams.get("examName");
+        const registrationNo = searchParams.get("registrationNo");
         setResult(resultData);
+        setStudentRegistrationNo(registrationNo);
         setExamName(name);
         setLoading(false);
       } catch (error) {
@@ -87,11 +90,36 @@ const Result = () => {
     localStorage.clear();
     history.push("/");
   };
-  console.log(examName)
+
+  const handleDownload = () => {
+    const resultText = `
+      Exam Name: ${examName}
+      Student Registration No: ${studentRegistrationNo}
+      Total Questions: ${result.totalQuestions}
+      Attended Questions: ${result.attendedQuestions}
+      Correct Answers: ${result.correctAnswers}
+      Percentage: ${calculatePercentage(result.correctAnswers, result.totalQuestions)}%
+    `;
+
+    const blob = new Blob([resultText], { type: "text/plain;charset=utf-8" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `${studentRegistrationNo}.txt`;
+    link.click();
+  };
+
+  const calculatePercentage = (correct, total) => {
+    return ((correct / total) * 100).toFixed(2);
+  };
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+      >
         <CircularProgress />
       </Box>
     );
@@ -103,10 +131,6 @@ const Result = () => {
 
   const { attendedQuestions, correctAnswers, totalQuestions } = result;
 
-  const calculatePercentage = (correct, total) => {
-    return ((correct / total) * 100).toFixed(2);
-  };
-
   return (
     <>
       <Back title="Result" />
@@ -115,8 +139,11 @@ const Result = () => {
           <Typography variant="h4" className={classes.title} gutterBottom>
             Exam Result
           </Typography>
-          <Typography variant="h5" className={classes.examName} gutterBottom>Exam Name : 
-             {examName}
+          <Typography variant="h5" className={classes.examName} gutterBottom>
+            Exam Name : {examName}
+          </Typography>
+          <Typography variant="h5" className={classes.examName} gutterBottom>
+            Student Registration No : {studentRegistrationNo}
           </Typography>
           <Divider className={classes.divider} />
           <Typography variant="h6" className={classes.text}>
@@ -128,7 +155,11 @@ const Result = () => {
           <Typography variant="body1" className={classes.text}>
             Correct Answers: {correctAnswers}
           </Typography>
-          <Typography variant="body1" className={`${classes.text} ${classes.percentage}`} gutterBottom>
+          <Typography
+            variant="body1"
+            className={`${classes.text} ${classes.percentage}`}
+            gutterBottom
+          >
             Percentage: {calculatePercentage(correctAnswers, totalQuestions)}%
           </Typography>
           <Button
@@ -138,6 +169,15 @@ const Result = () => {
             fullWidth
           >
             Continue
+          </Button>
+          <Button
+            variant="contained"
+            className={classes.button}
+            onClick={handleDownload}
+            fullWidth
+            style={{ marginTop: "10px" }}
+          >
+            Download Result
           </Button>
         </Paper>
       </Container>

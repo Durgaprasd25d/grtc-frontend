@@ -82,8 +82,9 @@ const Exam = () => {
         history.push(
           `/result?result=${encodeURIComponent(
             JSON.stringify(submitResponse.data)
-          )}&examName=${encodeURIComponent(examName)}`
+          )}&examName=${encodeURIComponent(examName)}&registrationNo=${encodeURIComponent(studentData.registrationNo)}`
         );
+        
       } else {
         setErrorMessage("Failed to submit the exam.");
         toast.error("Failed to submit the exam.");

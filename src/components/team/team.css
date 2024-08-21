@@ -1,22 +1,37 @@
+.team {
+  padding: 20px 0; /* Padding for the entire section */
+}
+
+.team .container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid layout */
+  gap: 20px; /* Spacing between grid items */
+}
+
 .team .items {
   transition: 0.5s;
-  width: 100%; /* Ensures each item takes full width on smaller screens */
-  height: 300px; /* Fixed height for consistency */
-  margin-bottom: 20px; /* Adds spacing between items */
+  width: 100%;
   position: relative;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .team .img {
+  width: 100%;
+  height: 200px; /* Maintain this fixed height */
   position: relative;
-  overflow: hidden; /* Ensures images do not overflow their containers */
-  width: 100%; /* Ensures images take full width of parent */
-  height: 200px; /* Fixed height for images */
+  overflow: hidden;
 }
 
 .team img {
+  margin-top: 30px;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensures images maintain aspect ratio and cover their containers */
+  object-fit: contain; /* Ensures the image covers the entire area while maintaining its aspect ratio */
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .overlay {
@@ -24,7 +39,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,55 +48,69 @@
   transition: 0.5s;
 }
 
-.overlay a {
-  margin: 0 5px; /* Adjust spacing between social media icons */
-}
-
 .overlay i {
-  background-color: transparent; /* Transparent background for icons */
-  color: #fff; /* Default color for icons */
-  font-size: 30px; /* Adjust icon size */
-  margin: 0 5px; /* Adjust spacing between icons */
+  background-color: transparent;
+  color: #fff;
+  font-size: 24px;
+  margin: 0 10px;
   transition: 0.3s;
 }
 
 .team .details {
-  padding: 20px; /* Increased padding for better spacing */
+  padding: 15px;
   text-align: center;
 }
 
 .team .details h2 {
-  font-weight: 500;
-  font-size: 20px;
+  font-weight: 600;
+  font-size: 18px;
   transition: 0.5s;
-  margin-bottom: 10px; /* Adds space below the name */
-}
-
-/* Adjustments for smaller screens */
-@media (max-width: 768px) {
-  .team .details h2 {
-    font-size: 18px; /* Decreased font size for smaller screens */
-  }
+  margin-bottom: 10px;
 }
 
 .team .details p {
-  font-size: 15px;
+  font-size: 14px;
   color: grey;
   margin-top: 10px;
   transition: 0.5s;
 }
-/* 
-.team .items:hover {
-  width: 200px; 
-  background-color: #1eb2a6;
-  color: #fff;
-  cursor: pointer;
-} */
 
 .team .items:hover .overlay {
   opacity: 1;
 }
 
 .team .items .overlay i:hover {
-  background-color: #1eb2a6; /* Background color on hover */
+  background-color: #1eb2a6;
+  color: #fff;
+  border-radius: 50%;
+  padding: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .team .details h2 {
+    font-size: 16px;
+  }
+
+  .team .details p {
+    font-size: 13px;
+  }
+
+  .team .img {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .team .details h2 {
+    font-size: 14px;
+  }
+
+  .team .details p {
+    font-size: 12px;
+  }
+
+  .team .img {
+    height: 150px;
+  }
 }
