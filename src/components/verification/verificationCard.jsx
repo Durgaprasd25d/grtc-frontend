@@ -1,9 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Box, Button, TextField, Container, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  Container,
+  Typography,
+  Grid,
+  Paper,
+} from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress"; // Use MUI's CircularProgress instead of @material-ui/core
+import { makeStyles } from "@mui/styles"; // Use MUI's makeStyles instead of @material-ui/core/styles
+import defaultCertificate from "../../Images/default_certificate.avif"; // Fixed typo in "defaultCertificate"
 import "./VerificationCard.css";
-import defaultCertifictate from "../../Images/default_certificate.avif";
-import { CircularProgress } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   loaderContainer: {
@@ -34,22 +42,44 @@ const VerificationCard = () => {
     setErrorMessage(""); // Reset error message
     try {
       setLoading(true);
-      const response = await fetch(
+
+      // Fetch student details from the GRTC API
+      const studentResponse = await fetch(
         `https://grtcindia.in/grtc-server/api/studentReg/${registrationNo}`
       );
-      const data = await response.json();
-      setLoading(false);
+      const studentData = await studentResponse.json();
 
-      if (data.data) {
-        setStudentData(data.data);
+      if (studentData.data) {
+        setStudentData(studentData.data);
+
+        // Fetch exam details from the local Node.js API using the registration number
+        const examResponse = await fetch(
+          `https://grtc-new-node-backend.onrender.com/api/students/${studentData.data.registrationNo}`
+        );
+        const examData = await examResponse.json();
+
+        // Assuming examData is structured to hold the exam details
+        if (examData) {
+          const completedExam = examData.completedExams; // Adjust based on actual response structure
+
+          // Update studentData to include exam details and percentage
+          setStudentData((prevData) => ({
+            ...prevData,
+            attendedExams: examData.attendedExams,
+            completedExams: completedExam, // Include the completed exams with percentage
+          }));
+        } else {
+          setErrorMessage("No exam details available for this student");
+        }
       } else {
         setStudentData(null);
-        setErrorMessage("No student available with this registration no");
+        setErrorMessage("No student available with this registration number");
       }
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
       setLoading(false);
-      setErrorMessage("Not found, Please try again.");
+      setErrorMessage("An error occurred. Please try again.");
     }
   };
 
@@ -82,7 +112,7 @@ const VerificationCard = () => {
           inputRef={searchInputRef}
         />
         <Button
-          style={{backgroundColor: "#1eb2a6" }}
+          style={{ backgroundColor: "#1eb2a6" }}
           variant="contained"
           className="verification-submit-button"
           onClick={handleSubmit}
@@ -90,13 +120,15 @@ const VerificationCard = () => {
           Submit
         </Button>
       </Box>
+
       {submitted && errorMessage && (
         <Typography variant="body1" color="error" gutterBottom>
           {errorMessage}
         </Typography>
       )}
+
       {submitted && studentData && (
-        <Box className="verification-box-section">
+        <Box className="verification-box-section" marginBottom={2}>
           <Box
             className="verification-left-box"
             position="relative"
@@ -199,20 +231,71 @@ const VerificationCard = () => {
             borderRadius={2}
             bgcolor="background.paper"
           >
-            {studentData.certificatepic ? (
+            {studentData.certificatePic ? (
               <img
-                src={studentData.certificatepic}
+                src={studentData.certificatePic}
                 alt="Certificate"
                 className="certificate-img"
               />
             ) : (
               <img
-                src={defaultCertifictate}
+                src={defaultCertificate}
                 alt="Certificate"
                 className="certificate-img default-certificate"
               />
             )}
           </Box>
+        </Box>
+      )}
+      {submitted && studentData && studentData.completedExams && (
+        <Box className="verification-exam-info">
+          {submitted && studentData && studentData.completedExams && (
+            <Box mb={3}>
+              <Typography variant="h6" gutterBottom>
+                Exam Details
+              </Typography>
+              <Paper elevation={3}>
+                <Box
+                  sx={{
+                    display: "table",
+                    width: "100%",
+                    borderCollapse: "collapse",
+                  }}
+                >
+                  {studentData.completedExams.map((exam, index) => (
+                    <Box
+                      key={index}
+                      sx={{
+                        display: "table-row",
+                        borderBottom: "1px solid #e0e0e0",
+                        "&:last-child": { borderBottom: "none" },
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          display: "table-cell",
+                          padding: "16px",
+                          textAlign: "left",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {exam.exam.title}
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "table-cell",
+                          padding: "16px",
+                          textAlign: "right",
+                        }}
+                      >
+                        {exam.percentge}%
+                      </Box>
+                    </Box>
+                  ))}
+                </Box>
+              </Paper>
+            </Box>
+          )}
         </Box>
       )}
     </Container>

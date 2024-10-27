@@ -11,6 +11,7 @@ import {
   Divider,
 } from "@material-ui/core";
 import Back from "../common/back/Back";
+import {jsPDF} from "jspdf";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -92,6 +93,9 @@ const Result = () => {
   };
 
   const handleDownload = () => {
+    const doc = new jsPDF();
+  
+    // Text to display in the PDF
     const resultText = `
       Exam Name: ${examName}
       Student Registration No: ${studentRegistrationNo}
@@ -100,12 +104,12 @@ const Result = () => {
       Correct Answers: ${result.correctAnswers}
       Percentage: ${calculatePercentage(result.correctAnswers, result.totalQuestions)}%
     `;
-
-    const blob = new Blob([resultText], { type: "text/plain;charset=utf-8" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = `${studentRegistrationNo}.txt`;
-    link.click();
+  
+    // Add the text to the PDF
+    doc.text(resultText, 10, 10);
+  
+    // Download the PDF
+    doc.save(`${studentRegistrationNo}.pdf`);
   };
 
   const calculatePercentage = (correct, total) => {

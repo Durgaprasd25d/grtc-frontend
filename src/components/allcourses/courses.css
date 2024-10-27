@@ -4,22 +4,25 @@
 
 .coursesCard .container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Display 4 items per row */
-  gap: 20px; /* Adjust the gap between items */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+  gap: 20px;
 }
 
 .coursesCard .items {
   background-color: #fff;
-  padding: 30px;
+  padding: 20px;
   text-align: center;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .coursesCard .img {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   background-color: #1eb2a6;
   padding: 15px;
+  margin: 0 auto;
 }
 
 .coursesCard img {
@@ -29,18 +32,17 @@
 }
 
 .coursesCard .text {
-  margin-left: 15px;
-  text-align: left;
+  margin-top: 15px;
 }
 
 .coursesCard .text h1 {
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 500;
-  line-height: 45px;
+  line-height: 36px;
 }
 
 .coursesCard .rate {
-  margin: 20px 0;
+  margin: 15px 0;
   color: #1eb2a6;
 }
 
@@ -49,17 +51,18 @@
   margin-right: 5px;
 }
 
+.coursesCard .details .box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: grey;
+}
+
 .coursesCard .details .dimg img {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  margin-right: 20px;
-}
-
-.coursesCard .details .box {
-  display: flex;
-  align-items: center;
-  color: grey;
+  margin-right: 10px;
 }
 
 .coursesCard .details span {
@@ -69,9 +72,10 @@
 }
 
 .coursesCard .price {
-  margin: 30px 0;
+  margin: 20px 0;
   background-color: #f8f8f8;
   padding: 10px;
+  border-radius: 5px;
 }
 
 .coursesCard h3 {
@@ -79,35 +83,23 @@
   color: #1eb2a6;
 }
 
-@media screen and (max-width: 1200px) {
-  .coursesCard .container {
-    grid-template-columns: repeat(3, 1fr); /* 3 items per row on smaller screens */
-  }
-}
-
 @media screen and (max-width: 768px) {
-  .coursesCard .container {
-    grid-template-columns: repeat(2, 1fr); /* 2 items per row on mobile screens */
+  .coursesCard .text h1 {
+    font-size: 20px;
+    line-height: 30px;
   }
 
   .coursesCard .items {
-    padding: 20px;
-  }
-
-  .coursesCard .text {
-    margin-left: 0;
-    margin-top: 15px;
-    text-align: center;
+    padding: 15px;
   }
 
   .coursesCard .img {
-    margin: auto;
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
   }
 
-  .coursesCard .text h1 {
-    font-size: 24px;
-    line-height: 36px;
+  .coursesCard .details .dimg img {
+    width: 40px;
+    height: 40px;
   }
 }

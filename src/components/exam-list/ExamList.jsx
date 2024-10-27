@@ -117,11 +117,12 @@ const ExamList = () => {
   }, [history]);
 
   const isExamAttended = (examId) => {
-    if (studentData.attendedExamsList && Array.isArray(studentData.attendedExamsList)) {
-      return studentData.attendedExamsList.includes(examId);
+    if (studentData.completedExams && Array.isArray(studentData.completedExams)) {
+      return studentData.completedExams.some((exam) => exam.exam.toString() === examId);
     }
     return false;
   };
+  
 
   if (loading) {
     return (

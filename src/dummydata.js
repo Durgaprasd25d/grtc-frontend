@@ -94,115 +94,227 @@ export const awrapper = [
 export const coursesCard = [
   {
     id: 2,
-    cover: "../images/courses/c2.png",
+    cover: "/images/courses/c2.png",
     coursesName: "Enhancing Adobe Photoshop CC 2020 Skills",
     courTeacher: [
       {
-        dcover: "./images/back.webp",
-        name: "by Satyapir Pradhan",
+        dcover: "/images/back.webp",
+        name: "Satyapir Pradhan",
         totalTime: "30 lectures (125 hrs)",
+      },
+    ],
+    priceAll: "$200 for Full Course",
+    pricePer: "$25 per month",
+  },
+  {
+    id: 3,
+    cover: "/images/courses/c3.png",
+    coursesName: "HTML, CSS, and Javascript for Web Developers",
+    courTeacher: [
+      {
+        dcover: "/images/back.webp",
+        name: "Satyapir Pradhan",
+        totalTime: "50 lectures (50 hrs)",
+      },
+    ],
+    priceAll: "$50 for Full Course",
+    pricePer: "$5 per month",
+  },
+  {
+    id: 4,
+    cover: "/images/courses/c4.png",
+    coursesName: "Introduction to Programming with WordPress",
+    courTeacher: [
+      {
+        dcover: "/images/back.webp",
+        name: "Satyapir Pradhan",
+        totalTime: "20 lectures (20 hrs)",
+      },
+    ],
+    priceAll: "$30 for Full Course",
+    pricePer: "$3 per month",
+  },
+  {
+    id: 5,
+    cover: "/images/courses/c5.png",
+    coursesName: "Introduction to Programming with ReactJS",
+    courTeacher: [
+      {
+        dcover: "/images/back.webp",
+        name: "Satyapir Pradhan",
+        totalTime: "100 lectures (150 hrs)",
+      },
+    ],
+    priceAll: "$300 for Full Course",
+    pricePer: "$30 per month",
+  },
+  {
+    id: 6,
+    cover: "/images/courses/c6.png",
+    coursesName: "Learn Frontend Programming Languages",
+    courTeacher: [
+      {
+        dcover: "/images/back.webp",
+        name: "Satyapir Pradhan",
+        totalTime: "200 lectures (300 hrs)",
+      },
+    ],
+    priceAll: "$500 for Full Course",
+    pricePer: "$80 per month",
+  },
+  {
+    id: 7,
+    cover: "/images/courses/c7.png",
+    coursesName: "Introduction to HTML & CSS",
+    courTeacher: [
+      {
+        dcover: "/images/back.webp",
+        name: "Satyapir Pradhan",
+        totalTime: "20 lectures (50 hrs)",
+      },
+    ],
+    priceAll: "$20 for Full Course",
+    pricePer: "$2 per month",
+  },
+  {
+    id: 8,
+    cover: "/images/courses/c8.png",
+    coursesName: "Introduction to JAVA",
+    courTeacher: [
+      {
+        dcover: "/images/back.webp",
+        name: "Satyapir Pradhan",
+        totalTime: "80 lectures (200 hrs)",
+      },
+    ],
+    priceAll: "$200 for Full Course",
+    pricePer: "$40 per month",
+  },
+  {
+    id: 9,
+    cover: "/images/courses/c9.png",
+    coursesName: "Introduction to HTML, CSS, & JavaScript",
+    courTeacher: [
+      {
+        dcover: "/images/back.webp",
+        name: "Satyapir Pradhan",
+        totalTime: "50 lectures (50 hrs)",
+      },
+    ],
+    priceAll: "$20 for Full Course",
+    pricePer: "$3 per month",
+  },
+  {
+    id: 10,
+    cover: "../images/courses/c10.png",
+    coursesName: "Mastering Python Programming",
+    courTeacher: [
+      {
+        dcover: "./images/teachers/t1.png",
+        name: "by Alex Johnson",
+        totalTime: "60 lectures (180 hrs)",
+      },
+    ],
+    priceAll: "$250 All Course",
+    pricePer: "$30 per month",
+  },
+  {
+    id: 11,
+    cover: "../images/courses/c11.png",
+    coursesName: "Advanced Data Science with R",
+    courTeacher: [
+      {
+        dcover: "./images/teachers/t2.png",
+        name: "by Maria Garcia",
+        totalTime: "40 lectures (120 hrs)",
+      },
+    ],
+    priceAll: "$300 All Course",
+    pricePer: "$35 per month",
+  },
+  {
+    id: 12,
+    cover: "../images/courses/c12.png",
+    coursesName: "Full-Stack Web Development with MERN",
+    courTeacher: [
+      {
+        dcover: "./images/teachers/t3.png",
+        name: "by John Doe",
+        totalTime: "100 lectures (300 hrs)",
+      },
+    ],
+    priceAll: "$400 All Course",
+    pricePer: "$45 per month",
+  },
+  {
+    id: 13,
+    cover: "../images/courses/c13.png",
+    coursesName: "Digital Marketing Masterclass",
+    courTeacher: [
+      {
+        dcover: "./images/teachers/t4.png",
+        name: "by Sarah Williams",
+        totalTime: "50 lectures (150 hrs)",
       },
     ],
     priceAll: "$200 All Course",
     pricePer: "$25 per month",
   },
   {
-    id: 3,
-    cover: "../images/courses/c3.png",
-    coursesName: "HTML, CSS, and Javascript for Web Developers",
+    id: 14,
+    cover: "../images/courses/c14.png",
+    coursesName: "Introduction to Cybersecurity",
     courTeacher: [
       {
-        dcover: "./images/back.webp",
-        name: "by Satyapir Pradhan",
-        totalTime: "50 lectures (50 hrs)",
+        dcover: "./images/teachers/t5.png",
+        name: "by Michael Brown",
+        totalTime: "30 lectures (90 hrs)",
       },
     ],
-    priceAll: "$50 All Course",
-    pricePer: "$5 per month",
+    priceAll: "$150 All Course",
+    pricePer: "$20 per month",
   },
   {
-    id: 4,
-    cover: "../images/courses/c4.png",
-    coursesName: "Introducing to Programming with WordPress",
+    id: 15,
+    cover: "../images/courses/c15.png",
+    coursesName: "Artificial Intelligence for Beginners",
     courTeacher: [
       {
-        dcover: "./images/back.webp",
-        name: "by Satyapir Pradhan",
-        totalTime: "20 lectures (20 hrs)",
+        dcover: "./images/teachers/t6.png",
+        name: "by Emily Davis",
+        totalTime: "70 lectures (210 hrs)",
       },
     ],
-    priceAll: "$30 All Course",
-    pricePer: "$3 per month",
-  },
-  {
-    id: 5,
-    cover: "../images/courses/c5.png",
-    coursesName: "Introducing to Programming with ReactJS",
-    courTeacher: [
-      {
-        dcover: "./images/back.webp",
-        name: "by Satyapir Pradhan",
-        totalTime: "100 lectures (150 hrs)",
-      },
-    ],
-    priceAll: "$300 All Course",
-    pricePer: "$30 per month",
-  },
-  {
-    id: 6,
-    cover: "../images/courses/c6.png",
-    coursesName: "Learn Frontend Programming Language",
-    courTeacher: [
-      {
-        dcover: "./images/back.webp",
-        name: "by Satyapir Pradhan",
-        totalTime: "200 lectures (300 hrs)",
-      },
-    ],
-    priceAll: "$500 All Course",
-    pricePer: "$80 per month",
-  },
-  {
-    id: 7,
-    cover: "../images/courses/c7.png",
-    coursesName: "Introducing to with HTML / CSS",
-    courTeacher: [
-      {
-        dcover: "./images/back.webp",
-        name: "by Satyapir Pradhan",
-        totalTime: "20 lectures (50 hrs)",
-      },
-    ],
-    priceAll: "$20 All Course",
-    pricePer: "$2 per month",
-  },
-  {
-    id: 8,
-    cover: "../images/courses/c8.png",
-    coursesName: "Introducing to with JAVA",
-    courTeacher: [
-      {
-        dcover: "./images/back.webp",
-        name: "by Satyapir Pradhan",
-        totalTime: "80 lectures (200 hrs)",
-      },
-    ],
-    priceAll: "$200 All Course",
+    priceAll: "$350 All Course",
     pricePer: "$40 per month",
   },
   {
-    id: 9,
-    cover: "../images/courses/c9.png",
-    coursesName: "Introducing to with HTML / CSS / JAVASCRIPT",
+    id: 16,
+    cover: "../images/courses/c16.png",
+    coursesName: "Cloud Computing with AWS",
     courTeacher: [
       {
-        dcover: "./images/back.webp",
-        name: "by Satyapir Pradhan",
-        totalTime: "50 lectures (50 hrs)",
+        dcover: "./images/teachers/t7.png",
+        name: "by Robert Wilson",
+        totalTime: "40 lectures (120 hrs)",
       },
     ],
-    priceAll: "$20 All Course",
-    pricePer: "$3 per month",
+    priceAll: "$300 All Course",
+    pricePer: "$35 per month",
+  },
+  {
+    id: 17,
+    cover: "../images/courses/c17.png",
+    coursesName: "UX/UI Design Fundamentals",
+    courTeacher: [
+      {
+        dcover: "./images/teachers/t8.png",
+        name: "by Linda Martinez",
+        totalTime: "35 lectures (105 hrs)",
+      },
+    ],
+    priceAll: "$220 All Course",
+    pricePer: "$28 per month",
   },
 ];
 
@@ -449,7 +561,7 @@ export const notices = [
 export const gallery = [
   {
     id: 1,
-    title: "Image 1",
+    title: "",
     category: "Annual Function",
     url: "/images/photos/annual_function/1.jpg",
     coverImage: "/images/photos/annual_function/1.jpg",
@@ -461,8 +573,8 @@ export const gallery = [
   },
   {
     id: 3,
-   category: "Annual Function",
-   url: "/images/photos/annual_function/3.jpg",
+    category: "Annual Function",
+    url: "/images/photos/annual_function/3.jpg",
   },
   {
     id: 4,
@@ -471,7 +583,7 @@ export const gallery = [
   },
   {
     id: 5,
-   category: "Annual Function",
+    category: "Annual Function",
     url: "/images/photos/annual_function/5.jpg",
   },
   {
@@ -511,7 +623,7 @@ export const gallery = [
   },
   {
     id: 13,
-   category: "Annual Function",
+    category: "Annual Function",
     url: "/images/photos/annual_function/13.jpg",
   },
   {
@@ -545,54 +657,46 @@ export const gallery = [
     id: 19,
     category: "Kandagoda",
     url: "/images/photos/kandagoda/2.jpg",
-   
   },
   {
     id: 20,
     category: "Kandagoda",
     url: "/images/photos/kandagoda/3.jpg",
-  
   },
   {
     id: 21,
-   category: "Kandagoda",
+    category: "Kandagoda",
     url: "/images/photos/kandagoda/4.jpg",
-   
   },
   {
     id: 22,
     category: "Kandagoda",
     url: "/images/photos/kandagoda/5.jpg",
-    
   },
   {
     id: 23,
     category: "Kandagoda",
     url: "/images/photos/kandagoda/6.jpg",
-  
   },
   {
     id: 24,
-   category: "Kandagoda",
+    category: "Kandagoda",
     url: "/images/photos/kandagoda/7.jpg",
   },
   {
     id: 25,
     category: "Kandagoda",
     url: "/images/photos/kandagoda/8.jpg",
-   
   },
   {
     id: 26,
     category: "Kandagoda",
     url: "/images/photos/kandagoda/9.jpg",
-    
   },
   {
     id: 27,
     category: "Kandagoda",
     url: "/images/photos/kandagoda/10.jpg",
- 
   },
   {
     id: 28,

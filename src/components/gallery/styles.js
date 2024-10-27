@@ -6,38 +6,53 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     maxWidth: "100%",
+    position: "relative",
   },
   media: {
-    height: 140,
+    height: 250,
+    // paddingTop: "75%", // 4:3 aspect ratio
   },
   modal: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
   modalContent: {
     outline: "none",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    position: "relative",
+    padding: theme.spacing(2),
   },
   modalImage: {
-    maxWidth: "50%",
-    maxHeight: "90%",
-    marginRight:"45px"
+    maxWidth: "90%",
+    maxHeight: "80vh",
+    borderRadius: theme.shape.borderRadius,
   },
   prevButton: {
     position: "absolute",
-    left: 0,
+    left: theme.spacing(2),
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    color: "white",
+    '&:hover': {
+      backgroundColor: "rgba(0, 0, 0, 0.7)",
+    },
   },
   nextButton: {
     position: "absolute",
-    right: "50px",
+    right: theme.spacing(2),
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    color: "white",
+    '&:hover': {
+      backgroundColor: "rgba(0, 0, 0, 0.7)",
+    },
   },
   backButton: {
     backgroundColor: "#1eb2a6",
     color: "white",
-    margin: "5px 5px 5px 0",
+    margin: theme.spacing(1, 0, 2, 0),
   },
 }));
 
