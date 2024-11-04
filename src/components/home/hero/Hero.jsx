@@ -10,7 +10,7 @@ const Hero = () => {
           <div className="row">
             <Heading
               subtitle="WELCOME TO Gurukrupa"
-              title="Best Online Education Expertise"
+              title="Best Computer Education Expertise"
             />
             <p>
               Far far away, behind the word mountains, far from the countries

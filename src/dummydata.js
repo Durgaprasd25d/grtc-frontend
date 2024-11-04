@@ -4,8 +4,8 @@ export const images = [
     imgAlt: "img-1",
   },
   {
-    imgURL: "images/photos/slider/2.jpg",
-    imgAlt: "img-2",
+    imgURL: "images/photos/slider/3.jpg",
+    imgAlt: "img-3",
   },
 
   {
@@ -23,6 +23,30 @@ export const images = [
   {
     imgURL: "images/photos/slider/7.jpg",
     imgAlt: "img-7",
+  },
+  {
+    imgURL: "images/photos/slider/8.jpg",
+    imgAlt: "img-8",
+  },
+  {
+    imgURL: "images/photos/slider/9.jpg",
+    imgAlt: "img-9",
+  },
+  {
+    imgURL: "images/photos/slider/10.jpg",
+    imgAlt: "img-10",
+  },
+  {
+    imgURL: "images/photos/slider/11.jpg",
+    imgAlt: "img-11",
+  },
+  {
+    imgURL: "images/photos/slider/12.jpg",
+    imgAlt: "img-12",
+  },
+  {
+    imgURL: "images/photos/slider/13.jpg",
+    imgAlt: "img-13",
   },
 ];
 
@@ -98,13 +122,12 @@ export const coursesCard = [
     coursesName: "Enhancing Adobe Photoshop CC 2020 Skills",
     courTeacher: [
       {
-        dcover: "/images/back.webp",
+        dcover: "/images/gurukrupa.png",
         name: "Satyapir Pradhan",
-        totalTime: "30 lectures (125 hrs)",
+        totalTime: "48 lectures (3 Months)",
       },
     ],
-    priceAll: "$200 for Full Course",
-    pricePer: "$25 per month",
+    priceAll: "Rs. 2500/- for Full Course",
   },
   {
     id: 3,
@@ -112,12 +135,12 @@ export const coursesCard = [
     coursesName: "HTML, CSS, and Javascript for Web Developers",
     courTeacher: [
       {
-        dcover: "/images/back.webp",
-        name: "Satyapir Pradhan",
-        totalTime: "50 lectures (50 hrs)",
+        dcover: "/images/gurukrupa.png",
+        name: "Laxman Paikaray",
+        totalTime: "50 lectures (100 hrs)",
       },
     ],
-    priceAll: "$50 for Full Course",
+    priceAll: "Rs. 5000/- for Full Course",
     pricePer: "$5 per month",
   },
   {
@@ -126,40 +149,40 @@ export const coursesCard = [
     coursesName: "Introduction to Programming with WordPress",
     courTeacher: [
       {
-        dcover: "/images/back.webp",
+        dcover: "/images/gurukrupa.png",
         name: "Satyapir Pradhan",
-        totalTime: "20 lectures (20 hrs)",
+        totalTime: "20 lectures (40 hrs)",
       },
     ],
-    priceAll: "$30 for Full Course",
+    priceAll: "Rs. 2500/- for Full Course",
     pricePer: "$3 per month",
   },
   {
     id: 5,
     cover: "/images/courses/c5.png",
-    coursesName: "Introduction to Programming with ReactJS",
+    coursesName: "Introduction to Excel and Spreadsheet ",
     courTeacher: [
       {
-        dcover: "/images/back.webp",
+        dcover: "/images/gurukrupa.png",
         name: "Satyapir Pradhan",
-        totalTime: "100 lectures (150 hrs)",
+        totalTime: "10 lectures (15 hrs)",
       },
     ],
-    priceAll: "$300 for Full Course",
+    priceAll: "Rs. 1000/- for Full Course",
     pricePer: "$30 per month",
   },
   {
     id: 6,
     cover: "/images/courses/c6.png",
-    coursesName: "Learn Frontend Programming Languages",
+    coursesName: "Advance Excel & Data Analysist",
     courTeacher: [
       {
-        dcover: "/images/back.webp",
+        dcover: "/images/gurukrupa.png",
         name: "Satyapir Pradhan",
-        totalTime: "200 lectures (300 hrs)",
+        totalTime: "50 lectures (75 hrs)",
       },
     ],
-    priceAll: "$500 for Full Course",
+    priceAll: "Rs. 2500/- for Full Course",
     pricePer: "$80 per month",
   },
   {
@@ -705,11 +728,81 @@ export const gallery = [
     url: "/images/photos/kandagoda/11.jpg",
   },
   {
-    id: 18,
+    id: 29,
     title: "Image 1",
-    category: "PICNIC 2021",
-    url: "/images/photos/kandagoda/1.jpg",
-    coverImage: "/images/photos/kandagoda/5.jpg",
+    category: "Picnic-2024",
+    url: "/images/photos/Picnic-2024/1.jpg",
+    coverImage: "/images/photos/Picnic-2024/1.jpg",
+  },
+  {
+    id: 30,
+    title: "Image 1",
+    category: "Picnic-2024",
+    url: "/images/photos/Picnic-2024/2.jpg",
+    coverImage: "/images/photos/Picnic-2024/2.jpg",
+  },
+  {
+    id: 30,
+    title: "Image 1",
+    category: "Picnic-2024",
+    url: "/images/photos/Picnic-2024/3.jpg",
+    coverImage: "/images/photos/Picnic-2024/3.jpg",
+  },
+  {
+    id: 30,
+    title: "Image 1",
+    category: "Picnic-2024",
+    url: "/images/photos/Picnic-2024/4.jpg",
+    coverImage: "/images/photos/Picnic-2024/4.jpg",
+  },
+  {
+    id: 30,
+    title: "Image 1",
+    category: "Picnic-2024",
+    url: "/images/photos/Picnic-2024/5.jpg",
+    coverImage: "/images/photos/Picnic-2024/5.jpg",
+  },
+  {
+    id: 30,
+    title: "Image 1",
+    category: "Picnic-2024",
+    url: "/images/photos/Picnic-2024/6.jpg",
+    coverImage: "/images/photos/Picnic-2024/6.jpg",
+  },
+  {
+    id: 30,
+    title: "Image 1",
+    category: "Picnic-2024",
+    url: "/images/photos/Picnic-2024/7.jpg",
+    coverImage: "/images/photos/Picnic-2024/7.jpg",
+  },
+  {
+    id: 30,
+    title: "Image 1",
+    category: "Picnic-2024",
+    url: "/images/photos/Picnic-2024/8.jpg",
+    coverImage: "/images/photos/Picnic-2024/8.jpg",
+  },
+  {
+    id: 30,
+    title: "Image 1",
+    category: "Picnic-2024",
+    url: "/images/photos/Picnic-2024/9.jpg",
+    coverImage: "/images/photos/Picnic-2024/9.jpg",
+  },
+  {
+    id: 30,
+    title: "Image 1",
+    category: "Picnic-2024",
+    url: "/images/photos/Picnic-2024/10.jpg",
+    coverImage: "/images/photos/Picnic-2024/10.jpg",
+  },
+  {
+    id: 30,
+    title: "Image 1",
+    category: "Picnic-2024",
+    url: "/images/photos/Picnic-2024/11.jpg",
+    coverImage: "/images/photos/Picnic-2024/11.jpg",
   },
 
   // Add more items as needed
