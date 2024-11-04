@@ -7,53 +7,93 @@ import {
   Button,
   CircularProgress,
   Paper,
-  makeStyles,
   Divider,
+  ThemeProvider,
+  createTheme,
+  makeStyles,
 } from "@material-ui/core";
 import Back from "../common/back/Back";
-import {jsPDF} from "jspdf";
+import { jsPDF } from "jspdf";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(4),
-    padding: theme.spacing(3),
+    marginTop: theme.spacing(6),
+    padding: theme.spacing(4),
     borderRadius: theme.spacing(2),
-    boxShadow: theme.shadows[5],
-    backgroundColor: theme.palette.background.default,
+    boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#f9f9f9",
+    maxWidth: 600,
+    margin: "auto",
   },
   title: {
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(4),
     fontWeight: "bold",
     color: theme.palette.primary.main,
+    textAlign: "center",
   },
   examName: {
     marginBottom: theme.spacing(2),
-    fontWeight: "bold",
+    fontWeight: 600,
     color: theme.palette.secondary.main,
+    textAlign: "center",
   },
   text: {
     marginBottom: theme.spacing(1),
-    fontSize: "1.1rem",
+    fontSize: "1rem",
     color: theme.palette.text.secondary,
+    textAlign: "center",
   },
   percentage: {
-    fontSize: "1.3rem",
-    fontWeight: "bold",
+    fontSize: "1.5rem",
+    fontWeight: 700,
     color: theme.palette.success.main,
+    textAlign: "center",
+    marginTop: theme.spacing(2),
   },
   button: {
     marginTop: theme.spacing(3),
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: "#1EB2A6", // Set button color to #1EB2A6
     color: theme.palette.primary.contrastText,
+    padding: theme.spacing(1.5),
+    borderRadius: theme.shape.borderRadius,
+    transition: "transform 0.2s ease-in-out",
     "&:hover": {
-      backgroundColor: theme.palette.primary.dark,
+      backgroundColor: "#179588", // Darker version of #1EB2A6
+      transform: "scale(1.02)",
     },
   },
   divider: {
     margin: `${theme.spacing(2)}px 0`,
   },
+  loadingContainer: {
+    height: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  resultContainer: {
+    padding: theme.spacing(4),
+  },
 }));
+
+// Custom theme with the primary color set to #1EB2A6
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#1EB2A6",
+      contrastText: "#fff",
+    },
+    secondary: {
+      main: "#1EB2A6",
+    },
+    success: {
+      main: "#4caf50",
+    },
+    background: {
+      default: "#fff",
+    },
+  },
+});
 
 const Result = () => {
   const classes = useStyles();
@@ -87,28 +127,24 @@ const Result = () => {
   }, [location.search]);
 
   const handleContinue = () => {
-    // Clear localStorage data
     localStorage.clear();
     history.push("/");
   };
 
   const handleDownload = () => {
     const doc = new jsPDF();
-  
-    // Text to display in the PDF
     const resultText = `
       Exam Name: ${examName}
       Student Registration No: ${studentRegistrationNo}
       Total Questions: ${result.totalQuestions}
       Attended Questions: ${result.attendedQuestions}
       Correct Answers: ${result.correctAnswers}
-      Percentage: ${calculatePercentage(result.correctAnswers, result.totalQuestions)}%
+      Percentage: ${calculatePercentage(
+        result.correctAnswers,
+        result.totalQuestions
+      )}%
     `;
-  
-    // Add the text to the PDF
     doc.text(resultText, 10, 10);
-  
-    // Download the PDF
     doc.save(`${studentRegistrationNo}.pdf`);
   };
 
@@ -118,12 +154,7 @@ const Result = () => {
 
   if (loading) {
     return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        height="100vh"
-      >
+      <Box className={classes.loadingContainer}>
         <CircularProgress />
       </Box>
     );
@@ -136,21 +167,21 @@ const Result = () => {
   const { attendedQuestions, correctAnswers, totalQuestions } = result;
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <Back title="Result" />
-      <Container maxWidth="sm">
+      <Container style={{ marginBottom: "10px" }}>
         <Paper className={classes.root} elevation={3}>
-          <Typography variant="h4" className={classes.title} gutterBottom>
+          <Typography variant="h4" className={classes.title}>
             Exam Result
           </Typography>
-          <Typography variant="h5" className={classes.examName} gutterBottom>
-            Exam Name : {examName}
+          <Typography variant="h6" className={classes.examName}>
+            Exam Name: {examName}
           </Typography>
-          <Typography variant="h5" className={classes.examName} gutterBottom>
-            Student Registration No : {studentRegistrationNo}
+          <Typography variant="h6" className={classes.examName}>
+            Student Registration No: {studentRegistrationNo}
           </Typography>
           <Divider className={classes.divider} />
-          <Typography variant="h6" className={classes.text}>
+          <Typography variant="body1" className={classes.text}>
             Total Questions: {totalQuestions}
           </Typography>
           <Typography variant="body1" className={classes.text}>
@@ -159,11 +190,7 @@ const Result = () => {
           <Typography variant="body1" className={classes.text}>
             Correct Answers: {correctAnswers}
           </Typography>
-          <Typography
-            variant="body1"
-            className={`${classes.text} ${classes.percentage}`}
-            gutterBottom
-          >
+          <Typography className={classes.percentage}>
             Percentage: {calculatePercentage(correctAnswers, totalQuestions)}%
           </Typography>
           <Button
@@ -185,7 +212,7 @@ const Result = () => {
           </Button>
         </Paper>
       </Container>
-    </>
+    </ThemeProvider>
   );
 };
 

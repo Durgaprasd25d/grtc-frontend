@@ -5,20 +5,27 @@ import {
   TextField,
   Container,
   Typography,
-  Grid,
   Paper,
 } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress"; // Use MUI's CircularProgress instead of @material-ui/core
-import { makeStyles } from "@mui/styles"; // Use MUI's makeStyles instead of @material-ui/core/styles
-import defaultCertificate from "../../Images/default_certificate.avif"; // Fixed typo in "defaultCertificate"
+import CircularProgress from "@mui/material/CircularProgress";
+import { makeStyles } from "@mui/styles";
+import { motion } from "framer-motion"; // Importing from framer-motion
+import defaultCertificate from "../../Images/default_certificate.avif";
 import "./VerificationCard.css";
+import gsap from "gsap"; // Importing GSAP for animations
 
 const useStyles = makeStyles((theme) => ({
   loaderContainer: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    minHeight: "60vh", // Adjust based on your layout
+    minHeight: "60vh",
+  },
+  notification: {
+    position: "fixed",
+    bottom: "20px",
+    right: "20px",
+    zIndex: 1000,
   },
 }));
 
@@ -29,60 +36,88 @@ const VerificationCard = () => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [smsNotification, setSmsNotification] = useState(""); 
   const mainContentRef = useRef(null);
   const searchInputRef = useRef(null);
+  const notificationRef = useRef(null); // Ref for notification
 
   useEffect(() => {
     mainContentRef.current.scrollIntoView({ behavior: "smooth" });
     searchInputRef.current.focus();
   }, []);
 
+  useEffect(() => {
+    // Animation for notifications
+    if (errorMessage || smsNotification) {
+      const tl = gsap.timeline();
+      tl.to(notificationRef.current, { autoAlpha: 1, duration: 0.5 }) // Fade in
+        .to(notificationRef.current, { autoAlpha: 0, duration: 0.5, delay: 5 }); // Fade out after 5 seconds
+    }
+  }, [errorMessage, smsNotification]);
+
   const handleSubmit = async () => {
     setSubmitted(true);
-    setErrorMessage(""); // Reset error message
+    setErrorMessage("");
+    setSmsNotification(""); 
+    setLoading(true); 
+  
     try {
-      setLoading(true);
-
-      // Fetch student details from the GRTC API
       const studentResponse = await fetch(
         `https://grtcindia.in/grtc-server/api/studentReg/${registrationNo}`
       );
-      const studentData = await studentResponse.json();
 
-      if (studentData.data) {
-        setStudentData(studentData.data);
+      if (!studentResponse.ok) {
+        if (studentResponse.status === 404) {
+          const backupResponse = await fetch(
+            `https://grtc-new-node-backend.onrender.com/api/students/${registrationNo}`
+          );
 
-        // Fetch exam details from the local Node.js API using the registration number
-        const examResponse = await fetch(
-          `https://grtc-new-node-backend.onrender.com/api/students/${studentData.data.registrationNo}`
-        );
-        const examData = await examResponse.json();
+          if (!backupResponse.ok) {
+            setErrorMessage("No student available with this registration number");
+            setStudentData(null);
+            return; 
+          }
 
-        // Assuming examData is structured to hold the exam details
-        if (examData) {
-          const completedExam = examData.completedExams; // Adjust based on actual response structure
-
-          // Update studentData to include exam details and percentage
-          setStudentData((prevData) => ({
-            ...prevData,
-            attendedExams: examData.attendedExams,
-            completedExams: completedExam, // Include the completed exams with percentage
-          }));
+          const backupData = await backupResponse.json();
+          setStudentData(backupData);
         } else {
-          setErrorMessage("No exam details available for this student");
+          return; 
         }
       } else {
-        setStudentData(null);
-        setErrorMessage("No student available with this registration number");
+        const fetchedStudentData = await studentResponse.json();
+        setStudentData(fetchedStudentData.data);
+
+        const examResponse = await fetch(
+          `https://grtc-new-node-backend.onrender.com/api/students/${fetchedStudentData.data.registrationNo}`
+        );
+
+        if (!examResponse.ok) {
+          setErrorMessage("No exam details available for this student");
+          return; 
+        }
+
+        const examData = await examResponse.json();
+        const completedExams = examData.completedExams || []; 
+
+        if (completedExams.length === 0) {
+          setSmsNotification("Student has not given any exams.");
+        }
+
+        setStudentData((prevData) => ({
+          ...prevData,
+          attendedExams: examData.attendedExams,
+          completedExams: completedExams,
+        }));
       }
-      setLoading(false);
+      
     } catch (error) {
       console.error("Error fetching data:", error);
-      setLoading(false);
       setErrorMessage("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
-
+  
   if (loading) {
     return (
       <Box className={classes.loaderContainer}>
@@ -92,17 +127,8 @@ const VerificationCard = () => {
   }
 
   return (
-    <Container
-      maxWidth="lg"
-      className="verification-card-container"
-      ref={mainContentRef}
-    >
-      <Box
-        className="verification-search-section"
-        display="flex"
-        justifyContent="center"
-        mb={3}
-      >
+    <Container maxWidth="lg" className="verification-card-container" ref={mainContentRef}>
+      <Box className="verification-search-section" display="flex" justifyContent="center" mb={3}>
         <TextField
           variant="outlined"
           placeholder="Enter the registration no"
@@ -121,11 +147,44 @@ const VerificationCard = () => {
         </Button>
       </Box>
 
-      {submitted && errorMessage && (
-        <Typography variant="body1" color="error" gutterBottom>
-          {errorMessage}
-        </Typography>
-      )}
+      {/* Notification section */}
+      <Box className={classes.notification} ref={notificationRef}>
+        {submitted && errorMessage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+           <Typography
+  variant="body1"
+  gutterBottom
+  sx={{
+    backgroundColor: 'red', // Set the background color to red
+    color: 'white', // Set the text color to white
+    padding: 2, // Add some padding for better visual spacing
+    borderRadius: 1, // Optional: add rounded corners
+    boxShadow: 2, // Optional: add a slight shadow for a glossy effect
+    textAlign: 'center' // Optional: center the text
+  }}
+>
+  {errorMessage}
+</Typography>
+
+          </motion.div>
+        )}
+
+        {submitted && smsNotification && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <Typography variant="body1" color="warning" gutterBottom>
+              {smsNotification}
+            </Typography>
+          </motion.div>
+        )}
+      </Box>
 
       {submitted && studentData && (
         <Box className="verification-box-section" marginBottom={2}>
@@ -137,25 +196,12 @@ const VerificationCard = () => {
             borderRadius={2}
             bgcolor="background.paper"
           >
-            <Box
-              className="verification-profile-pic"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <img
-                src={studentData.profilePic}
-                alt="Profile Pic"
-                className="profile-pic-img"
-              />
+            <Box className="verification-profile-pic" display="flex" justifyContent="center" alignItems="center">
+              <img src={studentData.profilePic} alt="Profile Pic" className="profile-pic-img" />
             </Box>
             <Box className="verification-details">
               <Box className="verification-field-row">
-                <Typography
-                  variant="body1"
-                  gutterBottom
-                  style={{ fontWeight: "bold" }}
-                >
+                <Typography variant="body1" gutterBottom style={{ fontWeight: "bold" }}>
                   Name:
                 </Typography>
                 <Typography variant="body1" gutterBottom>
@@ -163,11 +209,7 @@ const VerificationCard = () => {
                 </Typography>
               </Box>
               <Box className="verification-field-row">
-                <Typography
-                  variant="body1"
-                  gutterBottom
-                  style={{ fontWeight: "bold" }}
-                >
+                <Typography variant="body1" gutterBottom style={{ fontWeight: "bold" }}>
                   Registration No:
                 </Typography>
                 <Typography variant="body1" gutterBottom>
@@ -175,11 +217,7 @@ const VerificationCard = () => {
                 </Typography>
               </Box>
               <Box className="verification-field-row">
-                <Typography
-                  variant="body1"
-                  gutterBottom
-                  style={{ fontWeight: "bold" }}
-                >
+                <Typography variant="body1" gutterBottom style={{ fontWeight: "bold" }}>
                   DOB:
                 </Typography>
                 <Typography variant="body1" gutterBottom>
@@ -187,11 +225,7 @@ const VerificationCard = () => {
                 </Typography>
               </Box>
               <Box className="verification-field-row">
-                <Typography
-                  variant="body1"
-                  gutterBottom
-                  style={{ fontWeight: "bold" }}
-                >
+                <Typography variant="body1" gutterBottom style={{ fontWeight: "bold" }}>
                   Date of Admission:
                 </Typography>
                 <Typography variant="body1" gutterBottom>
@@ -199,11 +233,7 @@ const VerificationCard = () => {
                 </Typography>
               </Box>
               <Box className="verification-field-row">
-                <Typography
-                  variant="body1"
-                  gutterBottom
-                  style={{ fontWeight: "bold" }}
-                >
+                <Typography variant="body1" gutterBottom style={{ fontWeight: "bold" }}>
                   Father's Name:
                 </Typography>
                 <Typography variant="body1" gutterBottom>
@@ -211,11 +241,7 @@ const VerificationCard = () => {
                 </Typography>
               </Box>
               <Box className="verification-field-row">
-                <Typography
-                  variant="body1"
-                  gutterBottom
-                  style={{ fontWeight: "bold" }}
-                >
+                <Typography variant="body1" gutterBottom style={{ fontWeight: "bold" }}>
                   Courses:
                 </Typography>
                 <Typography variant="body1" gutterBottom>
@@ -232,70 +258,60 @@ const VerificationCard = () => {
             bgcolor="background.paper"
           >
             {studentData.certificatePic ? (
-              <img
-                src={studentData.certificatePic}
-                alt="Certificate"
-                className="certificate-img"
-              />
+              <img src={studentData.certificatePic} alt="Certificate" className="certificate-img" />
             ) : (
-              <img
-                src={defaultCertificate}
-                alt="Certificate"
-                className="certificate-img default-certificate"
-              />
+              <img src={defaultCertificate} alt="Certificate" className="certificate-img default-certificate" />
             )}
           </Box>
         </Box>
       )}
       {submitted && studentData && studentData.completedExams && (
         <Box className="verification-exam-info">
-          {submitted && studentData && studentData.completedExams && (
-            <Box mb={3}>
-              <Typography variant="h6" gutterBottom>
-                Exam Details
-              </Typography>
-              <Paper elevation={3}>
-                <Box
-                  sx={{
-                    display: "table",
-                    width: "100%",
-                    borderCollapse: "collapse",
-                  }}
-                >
-                  {studentData.completedExams.map((exam, index) => (
+          <Box mb={3}>
+            <Typography variant="h6" gutterBottom>
+              Exam Details
+            </Typography>
+            <Paper elevation={3}>
+              <Box
+                sx={{
+                  display: "table",
+                  width: "100%",
+                  borderCollapse: "collapse",
+                }}
+              >
+                {studentData.completedExams.map((exam, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      display: "table-row",
+                      borderBottom: "1px solid #e0e0e0",
+                      "&:last-child": { borderBottom: "none" },
+                    }}
+                  >
                     <Box
-                      key={index}
                       sx={{
-                        display: "table-row",
-                        borderBottom: "1px solid #e0e0e0",
-                        "&:last-child": { borderBottom: "none" },
+                        display: "table-cell",
+                        padding: "16px",
+                        textAlign: "left",
+                        fontWeight: "bold",
                       }}
                     >
-                      <Box
-                        sx={{
-                          display: "table-cell",
-                          padding: "16px",
-                          textAlign: "left",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        {exam.exam.title}
-                      </Box>
-                      <Box
-                        sx={{
-                          display: "table-cell",
-                          padding: "16px",
-                          textAlign: "right",
-                        }}
-                      >
-                        {exam.percentge}%
-                      </Box>
+                      {exam.exam.title}
                     </Box>
-                  ))}
-                </Box>
-              </Paper>
-            </Box>
-          )}
+                    <Box
+                      sx={{
+                        display: "table-cell",
+                        padding: "16px",
+                        textAlign: "right",
+                      }}
+                    >
+                      {exam.percentge}%
+                    </Box>
+                  </Box>
+                ))}
+              </Box>
+            </Paper>
+          </Box>
         </Box>
       )}
     </Container>

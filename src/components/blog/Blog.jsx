@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Back from "../common/back/Back";
 import { Grid, Typography, Paper, Box } from "@mui/material"; // Import necessary components from Material-UI
-
+import directorImg from "../../Images/director/director.jpg"
 const Blog = () => {
   const textAreaRef = useRef(null);
 
@@ -27,8 +27,7 @@ const Blog = () => {
             <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', maxHeight: 400 }}>
               {/* Image with reduced height */}
               <img
-                src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt="Placeholder"
+                src={directorImg}
                 style={{ maxWidth: '100%', height: 'auto', maxHeight: '100%' }}
               />
             </Box>
@@ -43,7 +42,7 @@ const Blog = () => {
             </Typography>
             <Typography variant="body1" style={{padding:'2px'}} sx={{ flexGrow: 1, maxHeight: 400, overflow: 'auto', textAlign: 'justify' }} ref={textAreaRef}>
               {/* Justified text with reduced height and scrolling */}
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat, lacus a lobortis feugiat, nisi tortor fringilla elit, at imperdiet ipsum lacus in nisi.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus volutpat...
+              Welcome to our Computer Institute. In today’s rapidly evolving technological landscape, we strive to provide quality education that empowers our students with the skills they need to succeed. Our commitment is to nurture innovation, creativity, and critical thinking. Together, we will embark on a journey of knowledge, transforming challenges into opportunities for personal and professional growth.
             </Typography>
           </Paper>
         </Grid>
